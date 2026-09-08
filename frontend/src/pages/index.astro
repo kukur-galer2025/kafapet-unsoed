@@ -1,5 +1,16 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+import slide1 from '../assets/images/slider/slide1.jpg';
+import slide2 from '../assets/images/slider/slide2.jpg';
+import slide3 from '../assets/images/slider/slide3.jpg';
+
+import galleryAlumniGathering from '../assets/images/gallery_alumni_gathering.jpg';
+import galleryGraduation from '../assets/images/gallery_graduation.jpg';
+import galleryPoultry from '../assets/images/gallery_poultry.jpg';
+import galleryVet from '../assets/images/gallery_vet.jpg';
+import galleryFarm from '../assets/images/gallery_farm.jpg';
 ---
 
 <BaseLayout title="Beranda | Modern & Premium">
@@ -12,7 +23,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Slide 1 -->
       <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out z-10">
         <div class="absolute inset-0 bg-slate-900/60 z-10"></div>
-        <img src="/images/slider/slide1.jpg" alt="Kampus Unsoed" class="absolute inset-0 w-full h-full object-cover z-0" />
+        <Image src={slide1} alt="Kampus Unsoed" class="absolute inset-0 w-full h-full object-cover z-0" />
         <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center pt-10 pb-24 sm:pb-32">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm mb-6 slide-content transform translate-y-0 opacity-100 transition-all duration-700">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_#34D399]"></span>
@@ -33,7 +44,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Slide 2 -->
       <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out z-0">
         <div class="absolute inset-0 bg-slate-900/60 z-10"></div>
-        <img src="/images/slider/slide2.jpg" alt="Networking" class="absolute inset-0 w-full h-full object-cover z-0" />
+        <Image src={slide2} alt="Networking" class="absolute inset-0 w-full h-full object-cover z-0" />
         <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center pt-10 pb-24 sm:pb-32">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm mb-6 slide-content transform translate-y-8 opacity-0 transition-all duration-700">
             <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse shadow-[0_0_10px_#FBBF24]"></span>
@@ -54,7 +65,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Slide 3 -->
       <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out z-0">
         <div class="absolute inset-0 bg-slate-900/60 z-10"></div>
-        <img src="/images/slider/slide3.jpg" alt="Gala Dinner" class="absolute inset-0 w-full h-full object-cover z-0" />
+        <Image src={slide3} alt="Gala Dinner" class="absolute inset-0 w-full h-full object-cover z-0" />
         <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center pt-10 pb-24 sm:pb-32">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm mb-6 slide-content transform translate-y-8 opacity-0 transition-all duration-700">
             <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse shadow-[0_0_10px_#38BDF8]"></span>
@@ -533,7 +544,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px]" data-aos="fade-up" data-aos-delay="100">
         <!-- Item 1 (Large) -->
         <div class="col-span-2 row-span-2 rounded-[2rem] overflow-hidden relative group shadow-sm bg-slate-900">
-          <img src="/images/gallery_alumni_gathering.jpg" alt="Reuni Akbar" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
+          <Image src={galleryAlumniGathering} alt="Reuni Akbar" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
           <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors duration-500 z-10"></div>
           <div class="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
             <h3 class="text-white font-bold text-2xl mb-2">Reuni Akbar KAFAPET</h3>
@@ -542,7 +553,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <!-- Item 2 -->
         <div class="rounded-[2rem] overflow-hidden relative group shadow-sm bg-slate-900">
-          <img src="/images/gallery_graduation.jpg" alt="Wisuda" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
+          <Image src={galleryGraduation} alt="Wisuda" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
           <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors duration-500 z-10"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
             <h3 class="text-white font-bold text-base">Wisuda Fakultas Peternakan</h3>
@@ -550,7 +561,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <!-- Item 3 -->
         <div class="rounded-[2rem] overflow-hidden relative group shadow-sm bg-slate-900">
-          <img src="/images/gallery_poultry.jpg" alt="Kunjungan Industri" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
+          <Image src={galleryPoultry} alt="Kunjungan Industri" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
           <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors duration-500 z-10"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
             <h3 class="text-white font-bold text-base">Kunjungan Industri</h3>
@@ -558,7 +569,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <!-- Item 4 (Tall) -->
         <div class="col-span-2 md:col-span-1 row-span-2 rounded-[2rem] overflow-hidden relative group shadow-sm bg-slate-900">
-          <img src="/images/gallery_vet.jpg" alt="Praktikum Lapangan" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
+          <Image src={galleryVet} alt="Praktikum Lapangan" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
           <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors duration-500 z-10"></div>
           <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
             <h3 class="text-white font-bold text-xl mb-1">Praktikum Lapangan</h3>
@@ -567,7 +578,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
         <!-- Item 5 -->
         <div class="rounded-[2rem] overflow-hidden relative group shadow-sm bg-slate-900">
-          <img src="/images/gallery_farm.jpg" alt="Modern Farm" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
+          <Image src={galleryFarm} alt="Modern Farm" class="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-110 transition-transform duration-700" />
           <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors duration-500 z-10"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent z-20 translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
             <h3 class="text-white font-bold text-base">Modern Farming</h3>
