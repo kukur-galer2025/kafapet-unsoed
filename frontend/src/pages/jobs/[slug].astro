@@ -1,0 +1,416 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const { slug } = Astro.params;
+---
+
+<BaseLayout title="Detail Lowongan">
+<style is:global>
+  .sidebar-sticky { position: sticky; top: 6rem; }
+  .hero-gradient { background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #0c4a6e 100%); }
+  .glass-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+  }
+  .section-card {
+    background: #fff;
+    border-radius: 1.25rem;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+  }
+  .section-card-inner { padding: 1.75rem; }
+  .accent-bar-green { height: 3px; background: linear-gradient(90deg, #10b981, #34d399); }
+  .accent-bar-amber { height: 3px; background: linear-gradient(90deg, #f59e0b, #fb923c); }
+  .accent-bar-blue  { height: 3px; background: linear-gradient(90deg, #3b82f6, #6366f1); }
+  .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.9);
+  }
+  .delete-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  .delete-modal-overlay.is-open {
+    display: flex;
+  }
+  .delete-modal-box {
+    transition: transform 0.25s ease, opacity 0.25s ease;
+    transform: scale(0.93);
+    opacity: 0;
+  }
+  .delete-modal-overlay.is-open .delete-modal-box {
+    transform: scale(1);
+    opacity: 1;
+  }
+</style>
+
+<div class="min-h-screen bg-slate-100">
+
+  <!-- ====== HERO HEADER ====== -->
+  <div class="hero-gradient pt-28 pb-28 relative overflow-hidden">
+    <!-- Decorative blobs -->
+    <div class="pointer-events-none absolute -top-20 -right-20 w-96 h-96 rounded-full bg-emerald-300/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-20 -left-10 w-72 h-72 rounded-full bg-sky-400/10 blur-3xl"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <!-- Back link -->
+      <a href="/jobs" class="inline-flex items-center gap-2 text-emerald-300 hover:text-white text-sm font-medium mb-10 transition-colors group">
+        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+        Kembali ke Portal Karir
+      </a>
+
+      <!-- Skeleton -->
+      <div id="job-header-skeleton" class="animate-pulse space-y-4">
+        <div class="flex gap-2"><div class="h-7 w-24 bg-white/15 rounded-full"></div><div class="h-7 w-20 bg-white/10 rounded-full"></div></div>
+        <div class="h-12 bg-white/20 rounded-xl w-3/4 max-w-xl"></div>
+        <div class="h-7 bg-white/15 rounded-lg w-1/3"></div>
+        <div class="flex gap-3 mt-4">
+          <div class="h-8 w-28 bg-white/10 rounded-full"></div>
+          <div class="h-8 w-32 bg-white/10 rounded-full"></div>
+          <div class="h-8 w-24 bg-white/10 rounded-full"></div>
+        </div>
+      </div>
+
+      <!-- Actual Header (hidden until JS loads) -->
+      <div id="job-header" class="hidden">
+        <!-- Badges row -->
+        <div class="flex flex-wrap gap-2 mb-5">
+          <span id="badge-type" class="glass-badge font-bold text-[11px] uppercase tracking-widest text-emerald-300"></span>
+          <span id="badge-status" class="glass-badge font-bold text-[11px] uppercase tracking-widest text-sky-300"></span>
+        </div>
+
+        <!-- Title -->
+        <h1 id="job-title" class="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-3"></h1>
+
+        <!-- Company -->
+        <div id="job-company" class="flex items-center gap-2 text-emerald-300 font-semibold text-lg mb-7"></div>
+
+        <!-- Meta chips -->
+        <div class="flex flex-wrap gap-2">
+          <div id="chip-location" class="meta-chip">
+            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span id="job-location"></span>
+          </div>
+          <div id="chip-salary" style="display:none" class="meta-chip">
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span id="job-salary" class="font-semibold text-amber-200"></span>
+          </div>
+          <div class="meta-chip">
+            <svg class="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span id="job-date" class="text-slate-300"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== CONTENT: pulled up over hero ====== -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-14 pb-20 relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+
+      <!-- ── LEFT COLUMN (2/3 width) ── -->
+      <div class="lg:col-span-2 space-y-5">
+
+        <!-- Banner card (conditional) -->
+        <div id="banner-wrap" class="hidden section-card">
+          <div class="section-card-inner flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <p class="font-bold text-slate-800 text-sm">Poster Lowongan</p>
+                <p class="text-xs text-slate-400 mt-0.5">Klik tombol untuk melihat gambar</p>
+              </div>
+            </div>
+            <a id="job-banner-link" href="#" target="_blank" class="shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold text-sm border border-emerald-100 transition-colors">
+              Lihat
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Description Card -->
+        <div class="section-card">
+          <div class="accent-bar-green"></div>
+          <div class="section-card-inner">
+            <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-800 mb-5">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </span>
+              Deskripsi Pekerjaan
+            </h2>
+            <div id="job-description" class="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">
+              <!-- skeleton -->
+              <div class="animate-pulse space-y-2">
+                <div class="h-3.5 bg-slate-100 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-100 rounded w-5/6"></div>
+                <div class="h-3.5 bg-slate-100 rounded w-4/6"></div>
+                <div class="h-3.5 bg-slate-100 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-100 rounded w-3/5"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Requirements Card -->
+        <div class="section-card">
+          <div class="accent-bar-amber"></div>
+          <div class="section-card-inner">
+            <h2 class="flex items-center gap-2.5 text-base font-bold text-slate-800 mb-5">
+              <span class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center">
+                <svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              </span>
+              Persyaratan
+            </h2>
+            <div id="job-requirements" class="text-slate-600 text-sm leading-relaxed whitespace-pre-wrap">
+              <!-- skeleton -->
+              <div class="animate-pulse space-y-2">
+                <div class="h-3.5 bg-slate-100 rounded w-full"></div>
+                <div class="h-3.5 bg-slate-100 rounded w-5/6"></div>
+                <div class="h-3.5 bg-slate-100 rounded w-2/3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── RIGHT COLUMN (sidebar, 1/3 width) ── -->
+      <div class="sidebar-sticky space-y-4">
+
+        <!-- Apply CTA -->
+        <div class="section-card">
+          <div class="accent-bar-blue"></div>
+          <div class="section-card-inner">
+            <p class="font-bold text-slate-900 text-sm mb-1">Tertarik dengan posisi ini?</p>
+            <p class="text-xs text-slate-400 mb-5">Lamar sekarang sebelum posisi terisi.</p>
+            <a id="apply-link" href="#" target="_blank" rel="noopener noreferrer"
+              class="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold py-3 rounded-xl transition-all text-sm shadow-sm mb-3">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+              Lamar Sekarang
+            </a>
+            <button id="copy-link-btn"
+              class="flex items-center justify-center gap-2 w-full bg-slate-50 hover:bg-slate-100 text-slate-600 font-semibold py-2.5 rounded-xl transition-colors border border-slate-200 text-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              Salin Link Lamaran
+            </button>
+            <p id="apply-link-display" class="text-[11px] text-slate-400 mt-2.5 text-center truncate"></p>
+          </div>
+        </div>
+
+        <!-- Poster Info -->
+        <div class="section-card">
+          <div class="section-card-inner">
+            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-4">Diposting oleh</p>
+            <div class="flex items-center gap-3 mb-4">
+              <div id="poster-avatar" class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 overflow-hidden text-sm"></div>
+              <div>
+                <p id="poster-name" class="font-bold text-slate-900 text-sm leading-tight"></p>
+                <p id="poster-role" class="text-xs text-slate-400 mt-0.5"></p>
+              </div>
+            </div>
+            <a id="poster-profile-link" href="#"
+              class="block w-full text-center text-xs text-emerald-600 hover:text-emerald-700 font-semibold py-2.5 rounded-xl border border-emerald-100 hover:bg-emerald-50 transition-colors">
+              Lihat Profil Lengkap →
+            </a>
+          </div>
+        </div>
+
+        <!-- Owner Controls (shown only if owner) -->
+        <div id="owner-controls" class="hidden space-y-3">
+          <div class="section-card">
+            <div class="section-card-inner space-y-2.5">
+              <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Kelola Lowongan</p>
+              <a id="edit-job-btn" href="#"
+                class="flex items-center justify-center gap-2 w-full bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold py-3 rounded-xl transition-colors border border-sky-100 text-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                Edit Lowongan
+              </a>
+              <button id="delete-job-btn"
+                class="flex items-center justify-center gap-2 w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-xl transition-colors border border-red-100 text-sm">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                Hapus Lowongan
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== DELETE MODAL ====== -->
+<div class="delete-modal-overlay" id="deleteModal" style="display:none;">
+  <div class="delete-modal-box bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
+    <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+      <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+    </div>
+    <h3 class="text-xl font-bold text-center text-slate-900 mb-2">Hapus Lowongan?</h3>
+    <p class="text-slate-500 text-center text-sm mb-8 leading-relaxed">Data yang sudah dihapus tidak dapat dikembalikan. Apakah Anda yakin ingin melanjutkan?</p>
+    <div class="flex gap-3">
+      <button id="btn-cancel-delete" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-colors text-sm">Batal</button>
+      <button id="btn-confirm-delete" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors text-sm shadow-lg shadow-red-200">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+</BaseLayout>
+
+<script define:vars={{ slug }}>
+  const API_BASE = 'http://localhost:3000/api/v1';
+  const jobSlug = slug;
+
+  function getToken() {
+    const m = document.cookie.match(/(^|;)\s*token\s*=\s*([^;]+)/);
+    return m ? m[2] : null;
+  }
+  const token = getToken();
+
+  function timeAgo(dateStr) {
+    const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+    if (diff < 60) return 'Baru saja';
+    if (diff < 3600) return `${Math.floor(diff / 60)} menit lalu`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} jam lalu`;
+    const d = Math.floor(diff / 86400);
+    return d < 30 ? `${d} hari lalu` : new Date(dateStr).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+  }
+
+  async function loadJob() {
+    try {
+      const res = await fetch(`${API_BASE}/jobs/${jobSlug}`);
+      if (!res.ok) {
+        document.getElementById('job-header-skeleton').innerHTML = '<p class="text-red-300 font-semibold text-sm">Lowongan tidak ditemukan.</p>';
+        return;
+      }
+
+      const { data: job } = await res.json();
+      document.title = `${job.title} — ${job.company} | KAFAPET Karir`;
+
+      // Show real header
+      document.getElementById('job-header-skeleton').classList.add('hidden');
+      document.getElementById('job-header').classList.remove('hidden');
+
+      // Banner
+      if (job.banner_image) {
+        const bw = document.getElementById('banner-wrap');
+        document.getElementById('job-banner-link').href = job.banner_image;
+        bw.classList.remove('hidden');
+      }
+
+      // Badges & meta
+      document.getElementById('badge-type').textContent = job.job_type || 'Full-time';
+      document.getElementById('badge-status').textContent = job.status === 'open' ? 'Dibuka' : 'Ditutup';
+      document.getElementById('job-title').textContent = job.title;
+      document.getElementById('job-company').innerHTML = `
+        <svg class="w-5 h-5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1v1H9V7zm5 0h1v1h-1V7zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1z"/></svg>
+        ${job.company}
+      `;
+      document.getElementById('job-location').textContent = job.location || 'Remote';
+      document.getElementById('job-date').textContent = timeAgo(job.created_at);
+
+      if (job.salary_range) {
+        document.getElementById('job-salary').textContent = job.salary_range;
+        document.getElementById('chip-salary').style.display = 'inline-flex';
+      }
+
+      // Description & Requirements
+      const descEl = document.getElementById('job-description');
+      const reqEl  = document.getElementById('job-requirements');
+      descEl.innerHTML = '';
+      reqEl.innerHTML  = '';
+      descEl.textContent = job.description  || 'Tidak ada deskripsi.';
+      reqEl.textContent  = job.requirements || 'Tidak ada persyaratan yang disebutkan.';
+
+      // Apply link
+      const applyEl = document.getElementById('apply-link');
+      const isEmail = job.apply_link && job.apply_link.includes('@');
+      applyEl.href = isEmail ? `mailto:${job.apply_link}` : (job.apply_link || '#');
+      document.getElementById('apply-link-display').textContent = job.apply_link || '';
+
+      document.getElementById('copy-link-btn').addEventListener('click', () => {
+        navigator.clipboard.writeText(job.apply_link || window.location.href);
+        const btn = document.getElementById('copy-link-btn');
+        btn.innerHTML = `<svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Tersalin!`;
+        setTimeout(() => {
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Salin Link Lamaran`;
+        }, 2000);
+      });
+
+      // Poster
+      const poster = job.user?.profile;
+      const posterName = poster?.full_name || 'Alumni KAFAPET';
+      document.getElementById('poster-name').textContent = posterName;
+      document.getElementById('poster-role').textContent = poster?.pekerjaan_saat_ini || 'Alumni Peternakan';
+      document.getElementById('poster-profile-link').href = `/alumni/${job.user_id}`;
+      const av = document.getElementById('poster-avatar');
+      if (poster?.foto_profil) {
+        av.innerHTML = `<img src="${poster.foto_profil}" class="w-full h-full object-cover" />`;
+      } else {
+        av.textContent = posterName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      }
+
+      // Owner controls
+      if (token) {
+        const meRes = await fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+        if (meRes.ok) {
+          const me = await meRes.json();
+          if (me.user_id === job.user_id) {
+            document.getElementById('owner-controls').classList.remove('hidden');
+            document.getElementById('edit-job-btn').href = `/jobs/edit/${job.slug}`;
+          }
+        }
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  // ── Delete Modal ──
+  const modal = document.getElementById('deleteModal');
+  const openModal  = () => { modal.style.display = ''; modal.classList.add('is-open'); };
+  const closeModal = () => { modal.classList.remove('is-open'); setTimeout(() => { modal.style.display = 'none'; }, 260); };
+
+  document.getElementById('delete-job-btn')?.addEventListener('click', openModal);
+  document.getElementById('btn-cancel-delete')?.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  document.getElementById('btn-confirm-delete')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-confirm-delete');
+    btn.innerHTML = `<svg class="w-4 h-4 animate-spin mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+    btn.disabled = true;
+    try {
+      const res = await fetch(`${API_BASE}/jobs/${jobSlug}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        window.location.href = '/jobs';
+      } else {
+        closeModal();
+        btn.textContent = 'Ya, Hapus';
+        btn.disabled = false;
+      }
+    } catch(e) {
+      closeModal();
+      btn.textContent = 'Ya, Hapus';
+      btn.disabled = false;
+    }
+  });
+
+  loadJob();
+</script>

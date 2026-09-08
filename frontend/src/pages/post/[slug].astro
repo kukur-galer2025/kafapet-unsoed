@@ -1,0 +1,207 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const { slug } = Astro.params;
+---
+
+<BaseLayout title="Detail Postingan — KAFAPET">
+  <div class="min-h-screen bg-slate-50 pt-24 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Tombol Kembali -->
+      <a href="/network" class="inline-flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors mb-6 font-medium bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm hover:shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+        Kembali ke Jejaring
+      </a>
+
+      <!-- Container Postingan -->
+      <div id="post-container" data-slug={slug}>
+        <!-- Skeleton Loading -->
+        <div class="bg-white rounded-[2rem] border border-slate-200 p-6 animate-pulse">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 bg-slate-200 rounded-xl"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 bg-slate-200 rounded w-1/4"></div>
+              <div class="h-3 bg-slate-100 rounded w-1/3"></div>
+            </div>
+          </div>
+          <div class="space-y-3 mb-4">
+            <div class="h-4 bg-slate-200 rounded w-full"></div>
+            <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+          </div>
+          <div class="h-64 bg-slate-100 rounded-2xl"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:3000/api/v1';
+    const container = document.getElementById('post-container');
+    const slug = container.dataset.slug;
+
+    // Helper functions
+    function getInitials(name) { return name ? name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase() : 'U'; }
+    function timeAgo(dateStr) {
+      const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
+      if (diff < 60) return 'Baru saja';
+      if (diff < 3600) return `${Math.floor(diff / 60)} menit lalu`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)} jam lalu`;
+      return `${Math.floor(diff / 86400)} hari lalu`;
+    }
+
+    function buildImageGrid(post) {
+      let images = [];
+      try { images = JSON.parse(post.images || '[]'); } catch(e) {}
+      if(images.length === 0 && post.image_url) images = [post.image_url];
+      if(images.length === 0) return '';
+
+      const gridClass = `g${Math.min(images.length, 4)}`;
+      const items = images.slice(0, 4).map(url => `
+        <div class="relative overflow-hidden bg-slate-100 cursor-pointer" onclick="window.open('${url}', '_blank')">
+          <img src="${url}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" alt="Post image" />
+        </div>
+      `).join('');
+
+      return `<div class="grid gap-2 rounded-2xl overflow-hidden border border-slate-100 mb-6 ${gridClass === 'g1' ? 'grid-cols-1 max-h-[500px]' : gridClass === 'g2' ? 'grid-cols-2 max-h-[300px]' : gridClass === 'g3' ? 'grid-cols-2 max-h-[400px]' : 'grid-cols-2 max-h-[400px]'}">${items}</div>`;
+    }
+
+    async function loadPost() {
+      try {
+        const res = await fetch(`${API_BASE}/posts/s/${slug}`);
+        if (!res.ok) {
+          container.innerHTML = `
+            <div class="text-center py-20 bg-white rounded-[2rem] border border-slate-200">
+              <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+                <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <h2 class="text-xl font-bold text-slate-800 mb-2">Postingan tidak ditemukan</h2>
+              <p class="text-slate-500">Mungkin sudah dihapus atau link tidak valid.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const post = await res.json();
+        const authorName = post.user?.profile?.full_name || 'Alumni';
+        const authorAngkatan = post.user?.profile?.angkatan;
+        const authorPerusahaan = post.user?.profile?.perusahaan;
+        const authorPekerjaan = post.user?.profile?.pekerjaan_saat_ini;
+        const initials = getInitials(authorName);
+        const date = timeAgo(post.created_at);
+        
+        let jobText = '';
+        if (authorPekerjaan && authorPerusahaan) jobText = `${authorPekerjaan} di ${authorPerusahaan}`;
+        else if (authorPekerjaan) jobText = authorPekerjaan;
+        else if (authorPerusahaan) jobText = authorPerusahaan;
+
+        const imageHTML = buildImageGrid(post);
+        let tagsHTML = '';
+        if (post.tags && post.tags !== '[]') {
+          tagsHTML = `
+            <div class="flex flex-wrap gap-2 mb-6">
+              ${JSON.parse(post.tags).map(tag => `<span class="inline-flex items-center px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium">${tag}</span>`).join('')}
+            </div>
+          `;
+        }
+
+        // Update document title for SEO
+        document.title = `${authorName} - ${post.content.substring(0, 30)}... | KAFAPET`;
+
+        container.innerHTML = `
+          <div class="bg-white rounded-[2rem] border border-slate-200/60 p-6 sm:p-8 shadow-xl shadow-slate-200/40">
+            <!-- Header -->
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-md">
+                ${initials}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="font-bold text-slate-900 text-lg truncate">${authorName}</h3>
+                  ${authorAngkatan ? `<span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-md text-xs font-bold tracking-wide">Angkatan ${authorAngkatan}</span>` : ''}
+                </div>
+                <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-500">
+                  ${jobText ? `
+                    <span class="font-medium flex items-center gap-1.5">
+                      <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                      ${jobText}
+                    </span>
+                    <span class="text-slate-300">•</span>
+                  ` : ''}
+                  <span>${date}</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Content -->
+            <p class="text-slate-800 text-base sm:text-lg leading-relaxed mb-6 whitespace-pre-line">${post.content}</p>
+            ${tagsHTML}
+            ${imageHTML}
+            
+            <!-- Actions -->
+            <div class="flex items-center justify-between border-t border-slate-100 pt-5 mt-4">
+              <div class="flex items-center gap-6 text-slate-500 font-medium">
+                <button class="flex items-center gap-2 hover:text-emerald-600 transition-colors bg-slate-50 hover:bg-emerald-50 px-4 py-2 rounded-xl">
+                   <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+                   <span>${post.like_count || 0} Suka</span>
+                </button>
+                <button class="flex items-center gap-2 hover:text-sky-600 transition-colors bg-slate-50 hover:bg-sky-50 px-4 py-2 rounded-xl">
+                   <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                   <span>${post.comment_count || 0} Komentar</span>
+                </button>
+              </div>
+              <div class="relative">
+                <button id="share-btn" class="flex items-center gap-2 hover:text-indigo-600 transition-colors bg-slate-50 hover:bg-indigo-50 px-4 py-2 rounded-xl text-slate-500 font-medium">
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                  <span>Bagikan</span>
+                </button>
+                <div id="share-dropdown" class="hidden absolute right-0 bottom-full mb-3 w-48 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-20">
+                  <button id="copy-link" class="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 border-b border-slate-50 transition-colors">
+                    <svg class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                    Salin Tautan
+                  </button>
+                  <a href="https://wa.me/?text=${encodeURIComponent('Lihat postingan ini di Kafapet: ' + window.location.href)}" target="_blank" class="w-full text-left px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 transition-colors">
+                    <svg class="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Attach events for share
+        const shareBtn = document.getElementById('share-btn');
+        const shareDropdown = document.getElementById('share-dropdown');
+        const copyBtn = document.getElementById('copy-link');
+
+        shareBtn?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          shareDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+          shareDropdown?.classList.add('hidden');
+        });
+
+        copyBtn?.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Tersalin!`;
+            setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
+          } catch(err) {
+            alert('Gagal menyalin tautan');
+          }
+        });
+
+      } catch (err) {
+        container.innerHTML = '<div class="text-center py-20 text-red-500 font-medium bg-red-50 rounded-2xl border border-red-100">Terjadi kesalahan sistem.</div>';
+      }
+    }
+
+    // Load data
+    loadPost();
+  </script>
+</BaseLayout>

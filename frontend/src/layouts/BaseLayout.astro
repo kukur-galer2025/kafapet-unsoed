@@ -1,0 +1,113 @@
+---
+import '@fontsource/outfit/300.css';
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
+import '@fontsource/outfit/700.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import 'aos/dist/aos.css';
+
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="id" class="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | KAFAPET Unsoed</title>
+	</head>
+	<body class="bg-[#F8FAFC] text-slate-800 min-h-screen font-sans selection:bg-kafapet-green-500 selection:text-white flex flex-col overflow-x-hidden">
+		<Navbar />
+		<main class="flex-grow relative z-10">
+			<slot />
+		</main>
+		
+    <!-- Global Profile Completion Popup -->
+    <div id="profile-completion-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+      <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+      <div data-modal-inner class="relative bg-white rounded-[2rem] p-8 max-w-md w-full mx-4 shadow-2xl border border-slate-100 scale-95 transform transition-transform duration-300 flex flex-col items-center text-center">
+        <div class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mb-6 shadow-inner ring-4 ring-emerald-50/50">
+          <svg class="w-10 h-10 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
+        </div>
+        <h3 class="text-2xl font-bold text-slate-900 mb-2">Profil Anda Belum Lengkap!</h3>
+        <p class="text-slate-500 mb-8 leading-relaxed">Lengkapi profil Anda sekarang agar bisa terhubung dengan alumni lain dan mulai membangun jejaring profesional Anda.</p>
+        
+        <div class="flex flex-col w-full gap-3">
+          <a href="/profile/edit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-200/50 transition-all hover:-translate-y-0.5">
+            Lengkapi Profil Sekarang
+          </a>
+          <button id="close-profile-modal" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-3.5 rounded-xl transition-all">
+            Nanti Saja
+          </button>
+        </div>
+      </div>
+    </div>
+    
+		<Footer />
+
+    <script>
+      import AOS from 'aos';
+      document.addEventListener('DOMContentLoaded', () => {
+        AOS.init({
+          duration: 1000,
+          once: true,
+          offset: 50,
+          easing: 'ease-out-cubic',
+        });
+        
+        // Profile completion check
+        const getCookie = (name) => {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        const showProfileModal = () => {
+          const modal = document.getElementById('profile-completion-modal');
+          if (!modal) return;
+          modal.classList.remove('hidden');
+          void modal.offsetWidth;
+          modal.classList.remove('opacity-0');
+          const inner = modal.querySelector('[data-modal-inner]');
+          if (inner) {
+            inner.classList.remove('scale-95');
+            inner.classList.add('scale-100');
+          }
+          document.getElementById('close-profile-modal')?.addEventListener('click', () => {
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            sessionStorage.setItem('profileModalDismissed', 'true');
+          });
+        };
+        
+        const token = getCookie('token');
+        if (token && window.location.pathname !== '/profile/edit') {
+          const dismissed = sessionStorage.getItem('profileModalDismissed');
+          if (!dismissed) {
+            fetch('http://localhost:3000/api/v1/auth/me', {
+              headers: { 'Authorization': `Bearer ${token}` }
+            }).then(res => res.json()).then(data => {
+              const p = data.profile;
+              // Show popup if profile doesn't exist or ANY field is empty
+              const isIncomplete = !p || !p.full_name || !p.angkatan || !p.prodi || !p.domisili_kota || !p.pekerjaan_saat_ini || !p.perusahaan;
+              if (isIncomplete) {
+                showProfileModal();
+              }
+            }).catch(err => console.error('Profile check failed:', err));
+          }
+        }
+      });
+    </script>
+	</body>
+</html>

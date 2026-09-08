@@ -1,0 +1,284 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const { slug } = Astro.params;
+---
+
+<BaseLayout title="Artikel | KAFAPET">
+<style is:global>
+  .prose-article h1, .prose-article h2, .prose-article h3 { font-weight:800; line-height:1.3; margin-top:1.8em; margin-bottom:0.6em; color:#0f172a; letter-spacing:-0.02em; }
+  .prose-article h1 { font-size:2.25rem; }
+  .prose-article h2 { font-size:1.75rem; }
+  .prose-article h3 { font-size:1.25rem; }
+  .prose-article p { margin-bottom:1.2em; line-height:1.85; color:#334155; font-size:1.125rem; }
+  .prose-article ul, .prose-article ol { padding-left:1.5rem; margin-bottom:1.2em; font-size:1.125rem; color:#334155; }
+  .prose-article li { margin-bottom:.5em; line-height:1.7; }
+  .prose-article blockquote { border-left:4px solid #10b981; padding-left:1.5rem; color:#475569; font-style:italic; margin:2em 0; background:linear-gradient(90deg, #f0fdf4 0%, transparent 100%); padding:1.5rem; border-radius:0 12px 12px 0; font-size:1.25rem; line-height:1.8; }
+  .prose-article pre, .prose-article code { background:#0f172a; color:#e2e8f0; padding:.2em .4em; border-radius:6px; font-size:0.9em; font-family: monospace; }
+  .prose-article pre { padding:1.5rem; border-radius:16px; overflow-x:auto; margin:1.5em 0; box-shadow:inset 0 2px 4px rgba(0,0,0,0.1); }
+  .prose-article pre code { background:transparent; padding:0; font-size:0.95em; }
+  .prose-article a { color:#10b981; text-decoration:none; border-bottom:1px solid transparent; transition:border-color 0.2s; font-weight:500; }
+  .prose-article a:hover { border-bottom-color:#10b981; }
+  .prose-article img { max-width:100%; border-radius:16px; margin:2em auto; display:block; box-shadow:0 10px 30px -10px rgba(0,0,0,0.1); }
+  
+  .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08); }
+  .hero-gradient { background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)); }
+
+  .delete-modal { display:none; position:fixed; inset:0; z-index:9999; align-items:center; justify-content:center; background:rgba(15,23,42,.7); backdrop-filter:blur(8px); }
+  .delete-modal.is-open { display:flex; }
+  .delete-modal-box { transition:transform .3s cubic-bezier(0.34, 1.56, 0.64, 1),opacity .2s ease; transform:scale(.95) translateY(10px); opacity:0; }
+  .delete-modal.is-open .delete-modal-box { transform:scale(1) translateY(0); opacity:1; }
+</style>
+
+<div class="min-h-screen bg-[#F8FAFC]">
+  <!-- Dynamic Hero -->
+  <div id="hero-wrapper" class="relative pt-32 pb-48 overflow-hidden bg-slate-900 transition-colors duration-700">
+    <!-- Background Image Layer (shows if cover exists) -->
+    <div id="hero-bg-img" class="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay blur-sm scale-105 transition-all duration-1000 hidden"></div>
+    <!-- Gradient Overlay -->
+    <div id="hero-overlay" class="absolute inset-0 z-10 hero-gradient"></div>
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 relative z-20">
+      <a href="/articles" class="inline-flex items-center gap-2 text-emerald-100 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full text-sm font-medium mb-8 transition-all backdrop-blur-md border border-white/10">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Kembali ke Artikel
+      </a>
+
+      <!-- Skeleton -->
+      <div id="hero-skeleton" class="animate-pulse space-y-4">
+        <div class="h-6 bg-white/10 rounded-full w-48 mb-6"></div>
+        <div class="h-14 bg-white/15 rounded-2xl w-full mb-3"></div>
+        <div class="h-14 bg-white/15 rounded-2xl w-3/4"></div>
+        <div class="flex items-center gap-4 mt-8">
+          <div class="w-12 h-12 rounded-full bg-white/10"></div>
+          <div class="space-y-2"><div class="h-4 bg-white/15 rounded w-32"></div><div class="h-3 bg-white/10 rounded w-24"></div></div>
+        </div>
+      </div>
+
+      <!-- Actual header -->
+      <div id="article-hero" class="hidden text-center md:text-left">
+        <div id="tags-row" class="flex flex-wrap justify-center md:justify-start gap-2 mb-6"></div>
+        <h1 id="article-title" class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-8 drop-shadow-lg tracking-tight"></h1>
+        
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 border-t border-white/10 pt-6">
+          <div class="flex items-center gap-4 text-left">
+            <div id="author-avatar" class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-500/30 font-bold flex items-center justify-center shrink-0 overflow-hidden text-sm shadow-inner"></div>
+            <div>
+              <p id="author-name" class="font-bold text-white text-base"></p>
+              <div class="flex items-center gap-2 text-emerald-200/80 text-sm">
+                <span id="article-date"></span>
+                <span class="w-1 h-1 rounded-full bg-emerald-500/50"></span>
+                <span>Alumni Unsoed</span>
+              </div>
+            </div>
+          </div>
+          
+          <button id="hero-share-btn" class="flex items-center gap-2 text-white/80 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-all backdrop-blur-md border border-white/10">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Bagikan Artikel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 pb-24 relative z-30">
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      <!-- Main Article Body -->
+      <div class="lg:w-2/3 w-full">
+        <div class="bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-100/50 overflow-hidden">
+          <div id="cover-wrap" class="hidden relative aspect-[21/9] bg-slate-100 w-full overflow-hidden">
+            <img id="cover-img" src="" alt="Cover" class="w-full h-full object-cover" />
+          </div>
+          
+          <div class="p-8 md:p-12 lg:p-14">
+            <div id="article-body" class="prose-article">
+              <div class="animate-pulse space-y-4">
+                <div class="h-4 bg-slate-100 rounded w-full"></div>
+                <div class="h-4 bg-slate-100 rounded w-11/12"></div>
+                <div class="h-4 bg-slate-100 rounded w-10/12"></div>
+                <div class="h-4 bg-slate-100 rounded w-full"></div>
+                <div class="h-4 bg-slate-100 rounded w-3/4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="lg:w-1/3 w-full space-y-6" style="position:sticky;top:6rem;">
+        <!-- Author card -->
+        <div class="glass-card rounded-3xl p-6">
+          <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-5 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            Ditulis oleh
+          </p>
+          <div class="flex flex-col items-center text-center mb-5">
+            <div id="sidebar-avatar" class="w-20 h-20 rounded-full bg-slate-100 text-slate-500 font-bold flex items-center justify-center overflow-hidden text-2xl shadow-sm mb-4 ring-4 ring-white"></div>
+            <h3 id="sidebar-name" class="font-bold text-slate-900 text-lg leading-tight mb-1"></h3>
+            <p id="sidebar-role" class="text-sm text-slate-500 font-medium"></p>
+          </div>
+          <a id="author-link" href="#" class="block w-full text-center text-emerald-700 bg-emerald-50 hover:bg-emerald-100 font-semibold py-3 rounded-2xl transition-colors">
+            Lihat Profil Alumni
+          </a>
+        </div>
+
+        <!-- Owner controls -->
+        <div id="owner-controls" class="hidden glass-card rounded-3xl p-6">
+          <p class="text-xs uppercase tracking-widest text-slate-400 font-bold mb-4 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+            Kelola Tulisan Anda
+          </p>
+          <div class="space-y-3">
+            <a id="edit-btn" href="#" class="flex items-center justify-center gap-2 w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-2xl transition-colors shadow-sm">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              Edit Artikel
+            </a>
+            <button id="delete-btn" class="flex items-center justify-center gap-2 w-full bg-red-50 hover:bg-red-100 text-red-600 font-bold py-3 rounded-2xl transition-colors">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              Hapus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="delete-modal" id="deleteModal" style="display:none;">
+  <div class="delete-modal-box bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
+    <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+      <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+    </div>
+    <h3 class="text-xl font-bold text-center text-slate-900 mb-2">Hapus Artikel?</h3>
+    <p class="text-slate-500 text-center text-sm mb-8 leading-relaxed">Artikel yang sudah dihapus tidak dapat dikembalikan.</p>
+    <div class="flex gap-3">
+      <button id="btn-cancel-delete" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-colors text-sm">Batal</button>
+      <button id="btn-confirm-delete" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors text-sm">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+</BaseLayout>
+
+<script define:vars={{ slug }}>
+  const API_BASE = 'http://localhost:3000/api/v1';
+  const articleSlug = slug;
+
+  function getToken() {
+    const m = document.cookie.match(/(^|;)\s*token\s*=\s*([^;]+)/);
+    return m ? m[2] : null;
+  }
+  const token = getToken();
+
+  function timeAgo(dateStr) {
+    const d = new Date(dateStr).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    return d;
+  }
+
+  async function loadArticle() {
+    try {
+      const res = await fetch(`${API_BASE}/articles/${articleSlug}`);
+      if (!res.ok) {
+        document.getElementById('hero-skeleton').innerHTML = '<p class="text-red-300 font-semibold">Artikel tidak ditemukan.</p>';
+        return;
+      }
+      const { data: article } = await res.json();
+      document.title = `${article.title} | KAFAPET Artikel`;
+
+      document.getElementById('hero-skeleton').classList.add('hidden');
+      document.getElementById('article-hero').classList.remove('hidden');
+
+      // Tags
+      const tags = (() => { try { return JSON.parse(article.tags || '[]'); } catch { return []; }})();
+      document.getElementById('tags-row').innerHTML = tags.map(t =>
+        `<span style="display:inline-block;padding:3px 12px;border-radius:9999px;font-size:11px;font-weight:700;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#d1fae5;">${t}</span>`
+      ).join('');
+
+      document.getElementById('article-title').textContent = article.title;
+      document.getElementById('article-date').textContent = timeAgo(article.created_at);
+
+      // Cover
+      if (article.cover_image) {
+        const coverUrl = `http://localhost:3000${article.cover_image}`;
+        document.getElementById('cover-img').src = coverUrl;
+        document.getElementById('cover-wrap').classList.remove('hidden');
+        
+        // Add dynamic background to hero
+        const heroBg = document.getElementById('hero-bg-img');
+        heroBg.style.backgroundImage = `url('${coverUrl}')`;
+        heroBg.classList.remove('hidden');
+      }
+
+      // Content
+      document.getElementById('article-body').innerHTML = article.content;
+
+      // Author
+      const poster = article.user?.profile;
+      const name = poster?.full_name || 'Alumni KAFAPET';
+      const role = poster?.pekerjaan_saat_ini || 'Alumni Peternakan';
+      const initials = name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+
+      ['author-avatar','sidebar-avatar'].forEach(id => {
+        const el = document.getElementById(id);
+        if (poster?.foto_profil) {
+          el.innerHTML = `<img src="${poster.foto_profil}" class="w-full h-full object-cover" />`;
+        } else {
+          el.textContent = initials;
+        }
+      });
+      document.getElementById('author-name').textContent = name;
+      document.getElementById('sidebar-name').textContent = name;
+      document.getElementById('sidebar-role').textContent = role;
+      document.getElementById('author-link').href = `/alumni/${article.user_id}`;
+
+      // Copy button
+      const shareBtn = document.getElementById('hero-share-btn');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(window.location.href);
+          shareBtn.innerHTML = `✓ Tersalin!`;
+          setTimeout(() => { shareBtn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Bagikan Artikel`; }, 2000);
+        });
+      }
+
+      // Owner controls
+      if (token) {
+        const meRes = await fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+        if (meRes.ok) {
+          const me = await meRes.json();
+          if (me.user_id === article.user_id) {
+            document.getElementById('owner-controls').classList.remove('hidden');
+            document.getElementById('edit-btn').href = `/articles/edit/${article.slug}`;
+          }
+        }
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  // Delete modal
+  const modal = document.getElementById('deleteModal');
+  const openModal  = () => { modal.style.display = ''; modal.classList.add('is-open'); };
+  const closeModal = () => { modal.classList.remove('is-open'); setTimeout(() => modal.style.display='none', 260); };
+
+  document.getElementById('delete-btn')?.addEventListener('click', openModal);
+  document.getElementById('btn-cancel-delete')?.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  document.getElementById('btn-confirm-delete')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-confirm-delete');
+    btn.innerHTML = `<svg class="w-4 h-4 animate-spin mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+    btn.disabled = true;
+    try {
+      const res = await fetch(`${API_BASE}/articles/${articleSlug}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) { window.location.href = '/articles'; }
+      else { closeModal(); btn.textContent = 'Ya, Hapus'; btn.disabled = false; }
+    } catch { closeModal(); btn.textContent = 'Ya, Hapus'; btn.disabled = false; }
+  });
+
+  loadArticle();
+</script>

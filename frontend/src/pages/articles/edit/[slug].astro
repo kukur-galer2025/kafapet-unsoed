@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+const { slug } = Astro.params;
+---
+
+<BaseLayout title="Edit Artikel | KAFAPET">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
+<style is:global>
+  .ql-editor { min-height: 300px; font-size: 15px; line-height: 1.7; color: #1e293b; }
+  .ql-toolbar { border-radius: 12px 12px 0 0 !important; border-color: #e2e8f0 !important; background: #f8fafc; }
+  .ql-container { border-radius: 0 0 12px 12px !important; border-color: #e2e8f0 !important; }
+  .form-label { display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px; }
+  .form-input { width:100%; padding:12px 14px; border:1px solid #e2e8f0; border-radius:12px; font-size:14px; outline:none; transition:border-color .2s; background:#fff; }
+  .form-input:focus { border-color:#10b981; box-shadow:0 0 0 3px rgba(16,185,129,.1); }
+  .tag-pill { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:9999px; font-size:12px; font-weight:600; color:#16a34a; }
+  .tag-pill .remove { cursor:pointer; font-size:14px; color:#86efac; }
+  .tag-pill .remove:hover { color:#dc2626; }
+</style>
+
+<div class="min-h-screen bg-slate-50 pt-24 pb-16">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="mb-8">
+      <a id="back-link" href="/articles" class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-700 text-sm mb-4 transition-colors group">
+        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+        Kembali
+      </a>
+      <h1 class="text-3xl font-extrabold text-slate-900">Edit Artikel</h1>
+    </div>
+
+    <!-- Cover -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-5">
+      <label class="form-label">Foto Cover <span class="text-slate-400 font-normal">(opsional)</span></label>
+      <div class="relative border-2 border-dashed border-slate-200 rounded-xl overflow-hidden cursor-pointer hover:border-emerald-400 transition-colors" style="min-height:160px;">
+        <div id="cover-placeholder" class="flex flex-col items-center justify-center py-10 gap-2">
+          <svg class="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <p class="text-sm text-slate-500">Klik untuk ganti foto cover</p>
+        </div>
+        <img id="cover-preview" src="" alt="" class="hidden absolute inset-0 w-full h-full object-cover" />
+        <input id="cover-input" type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" />
+      </div>
+      <button id="remove-cover" class="hidden mt-2 text-xs text-red-500 hover:text-red-700 font-semibold">Hapus foto cover</button>
+    </div>
+
+    <!-- Fields -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-5 space-y-5">
+      <div>
+        <label class="form-label" for="article-title">Judul Artikel <span class="text-red-400">*</span></label>
+        <input id="article-title" type="text" class="form-input text-lg font-bold" maxlength="200">
+      </div>
+      <div>
+        <label class="form-label">Konten Artikel <span class="text-red-400">*</span> <span class="text-slate-400 font-normal ml-1">(min. 20 karakter)</span></label>
+        <div id="quill-editor"></div>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-6">
+      <label class="form-label">Tag</label>
+      <div id="tags-container" class="flex flex-wrap gap-2 mb-3"></div>
+      <input id="tag-input" type="text" placeholder="Ketik tag lalu tekan Enter..." class="form-input" maxlength="30">
+    </div>
+
+    <div id="error-box" class="hidden bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 mb-5 text-sm"></div>
+
+    <button id="submit-btn" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold py-4 rounded-2xl transition-all text-sm shadow-md shadow-emerald-200">
+      Simpan Perubahan
+    </button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
+<script define:vars={{ slug }}>
+  const API_BASE = 'http://localhost:3000/api/v1';
+  const articleSlug = slug;
+
+  function getToken() {
+    const m = document.cookie.match(/(^|;)\s*token\s*=\s*([^;]+)/);
+    return m ? m[2] : null;
+  }
+  const token = getToken();
+  if (!token) { window.location.href = '/login'; }
+
+  const quill = new Quill('#quill-editor', {
+    theme: 'snow',
+    modules: {
+      toolbar: [
+        [{ header: [1,2,3,false] }],
+        ['bold','italic','underline','strike'],
+        [{ list:'ordered'},{ list:'bullet'}],
+        ['blockquote','code-block'],
+        ['link','image'],
+        [{ align:[] }],
+        ['clean']
+      ]
+    }
+  });
+
+  let tags = [];
+  const tagsContainer = document.getElementById('tags-container');
+  const tagInput = document.getElementById('tag-input');
+
+  function renderTags() {
+    tagsContainer.innerHTML = tags.map((t,i) =>
+      `<span class="tag-pill">${t}<span class="remove" data-i="${i}">×</span></span>`
+    ).join('');
+    tagsContainer.querySelectorAll('.remove').forEach(el => {
+      el.addEventListener('click', () => { tags.splice(+el.dataset.i,1); renderTags(); });
+    });
+  }
+
+  tagInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const val = tagInput.value.trim().toLowerCase();
+      if (val && !tags.includes(val) && tags.length < 5) { tags.push(val); renderTags(); }
+      tagInput.value = '';
+    }
+  });
+
+  // Cover
+  const coverInput = document.getElementById('cover-input');
+  const coverPreview = document.getElementById('cover-preview');
+  const coverPlaceholder = document.getElementById('cover-placeholder');
+  const removeBtn = document.getElementById('remove-cover');
+  let removeCover = false;
+
+  coverInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validasi file harus berupa gambar
+    if (!file.type.startsWith('image/')) {
+      alert('Maaf, file yang diupload harus berupa gambar (JPG, PNG, GIF, WebP).');
+      coverInput.value = ''; // Reset input
+      return;
+    }
+    
+    if (coverPreview.src && coverPreview.src.startsWith('blob:')) {
+      URL.revokeObjectURL(coverPreview.src);
+    }
+    
+    coverPreview.src = URL.createObjectURL(file);
+    coverPreview.classList.remove('hidden');
+    coverPlaceholder.classList.add('hidden');
+    removeBtn.classList.remove('hidden');
+    removeCover = false;
+  });
+
+  removeBtn.addEventListener('click', () => {
+    coverInput.value = '';
+    coverPreview.src = '';
+    coverPreview.classList.add('hidden');
+    coverPlaceholder.classList.remove('hidden');
+    removeBtn.classList.add('hidden');
+    removeCover = true;
+  });
+
+  // Load existing data
+  async function loadArticle() {
+    try {
+      const res = await fetch(`${API_BASE}/articles/${articleSlug}`);
+      if (!res.ok) { window.location.href = '/articles'; return; }
+      const { data: article } = await res.json();
+
+      // Ownership check
+      const meRes = await fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+      if (meRes.ok) {
+        const me = await meRes.json();
+        if (me.user_id !== article.user_id) {
+          alert('Anda tidak berhak mengedit artikel ini.');
+          window.location.href = `/articles/${articleSlug}`;
+          return;
+        }
+      }
+
+      document.getElementById('article-title').value = article.title;
+      quill.root.innerHTML = article.content;
+      document.getElementById('back-link').href = `/articles/${article.slug}`;
+
+      if (article.cover_image) {
+        const src = `http://localhost:3000${article.cover_image}`;
+        coverPreview.src = src;
+        coverPreview.classList.remove('hidden');
+        coverPlaceholder.classList.add('hidden');
+        removeBtn.classList.remove('hidden');
+      }
+
+      try { tags = JSON.parse(article.tags || '[]'); } catch { tags = []; }
+      renderTags();
+    } catch(e) { console.error(e); }
+  }
+
+  document.getElementById('submit-btn').addEventListener('click', async () => {
+    const title = document.getElementById('article-title').value.trim();
+    const content = quill.root.innerHTML;
+    const errBox = document.getElementById('error-box');
+    const btn = document.getElementById('submit-btn');
+
+    errBox.classList.add('hidden');
+    if (!title) { errBox.textContent = 'Judul wajib diisi.'; errBox.classList.remove('hidden'); return; }
+
+    btn.innerHTML = `<svg class="w-4 h-4 animate-spin mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>`;
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API_BASE}/articles/${articleSlug}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ title, content, tags: JSON.stringify(tags) })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Gagal menyimpan');
+
+      const newSlug = data.data.slug;
+
+      // Upload new cover
+      const coverFile = coverInput.files[0];
+      if (coverFile) {
+        const formData = new FormData();
+        formData.append('cover', coverFile);
+        await fetch(`${API_BASE}/articles/${newSlug}/cover`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: formData
+        });
+      }
+
+      window.location.href = `/articles/${newSlug}`;
+    } catch(e) {
+      errBox.textContent = e.message;
+      errBox.classList.remove('hidden');
+      btn.textContent = 'Simpan Perubahan';
+      btn.disabled = false;
+    }
+  });
+
+  loadArticle();
+</script>
+</BaseLayout>

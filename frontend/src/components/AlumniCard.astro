@@ -1,0 +1,59 @@
+---
+export interface Props {
+  profile: {
+    id: number;
+    full_name: string;
+    angkatan: string;
+    prodi: string;
+    pekerjaan_saat_ini: string;
+    perusahaan: string;
+    domisili_kota: string;
+    foto_profil: string;
+  };
+}
+
+const { profile } = Astro.props;
+---
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row gap-6 hover:shadow-md transition-shadow">
+  <!-- Avatar -->
+  <div class="flex-shrink-0 flex justify-center">
+    {profile.foto_profil ? (
+      <img src={profile.foto_profil} alt={profile.full_name} class="w-24 h-24 rounded-full object-cover border-4 border-kafapet-green-100" />
+    ) : (
+      <div class="w-24 h-24 rounded-full bg-kafapet-green-100 text-kafapet-green-700 flex items-center justify-center text-3xl font-bold border-4 border-kafapet-green-50">
+        {profile.full_name.charAt(0).toUpperCase()}
+      </div>
+    )}
+  </div>
+  
+  <!-- Info -->
+  <div class="flex-grow">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold text-gray-900">{profile.full_name}</h3>
+        <p class="text-kafapet-green-700 font-medium">{profile.prodi || 'Fakultas Peternakan'} {profile.angkatan ? `'${profile.angkatan.slice(-2)}` : ''}</p>
+      </div>
+    </div>
+    
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm text-gray-600">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd" />
+          <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+        </svg>
+        <span>{profile.pekerjaan_saat_ini || 'Belum diisi'} {profile.perusahaan ? `di ${profile.perusahaan}` : ''}</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+        </svg>
+        <span>{profile.domisili_kota || 'Belum diisi'}</span>
+      </div>
+    </div>
+    
+    <div class="mt-4">
+      <a href={`/alumni/${profile.user_id}`} class="text-sm text-kafapet-green-700 hover:text-kafapet-green-900 font-medium">Lihat Profil Lengkap &rarr;</a>
+    </div>
+  </div>
+</div>

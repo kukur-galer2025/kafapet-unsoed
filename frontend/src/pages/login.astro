@@ -1,0 +1,129 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import { loginUser } from '../utils/api';
+
+let error = Astro.url.searchParams.get('error') || '';
+
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const email = data.get('email')?.toString() || '';
+    const password = data.get('password')?.toString() || '';
+    
+    const result = await loginUser(email, password);
+    
+    Astro.cookies.set('token', result.token, {
+      path: '/',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 3 // 3 days
+    });
+    
+    return Astro.redirect('/network');
+  } catch (err: any) {
+    error = err.message;
+  }
+}
+---
+
+<AuthLayout title="Masuk">
+  <div class="min-h-screen w-full flex overflow-hidden bg-white">
+    
+    <!-- Left Side - Form (Takes 40-50% width on Desktop) -->
+    <div class="w-full lg:w-[45%] xl:w-[40%] flex flex-col justify-center px-8 sm:px-12 md:px-16 relative z-10 py-12 lg:py-0">
+      
+      <!-- Back to Home -->
+      <a href="/" class="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-emerald-600 transition-colors font-medium group text-sm">
+        <div class="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-emerald-50 flex items-center justify-center transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+        </div>
+        Kembali
+      </a>
+
+      <div class="max-w-[360px] w-full mx-auto mt-8 lg:mt-0" data-aos="fade-up">
+        <!-- Logo/Icon -->
+        <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-200/50 mb-8">
+          <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+        </div>
+
+        <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">Selamat Datang</h2>
+        <p class="text-slate-500 font-light mb-8">Silakan masuk ke akun KAFAPET Anda untuk melanjutkan.</p>
+
+        {error && (
+          <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-6 flex items-start gap-3 animate-[fadeSlideIn_0.3s_ease-out]">
+            <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <p class="text-sm text-red-600 font-medium">{error}</p>
+          </div>
+        )}
+
+        <!-- Google Login Button -->
+        <a href="http://localhost:3000/api/v1/auth/google" class="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm hover:bg-slate-50 hover:shadow-md transition-all font-semibold text-slate-700 active:scale-[0.98] text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5">
+            <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+            <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+            <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+            <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+          </svg>
+          Masuk dengan Google
+        </a>
+
+        <div class="my-6 flex items-center justify-between">
+          <div class="flex-grow border-t border-slate-200"></div>
+          <span class="flex-shrink-0 px-4 text-[11px] text-slate-400 font-bold uppercase tracking-widest bg-white whitespace-nowrap">Atau email</span>
+          <div class="flex-grow border-t border-slate-200"></div>
+        </div>
+
+        <form method="POST" class="space-y-5">
+          <div class="space-y-1">
+            <label for="email" class="text-sm font-semibold text-slate-700">Email</label>
+            <input type="email" id="email" name="email" required placeholder="budi@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all placeholder:text-slate-400">
+          </div>
+          <div class="space-y-1">
+            <div class="flex justify-between items-center">
+              <label for="password" class="text-sm font-semibold text-slate-700">Password</label>
+              <a href="#" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">Lupa sandi?</a>
+            </div>
+            <input type="password" id="password" name="password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all placeholder:text-slate-400">
+          </div>
+          
+          <button type="submit" class="w-full mt-2 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-emerald-200/50 transition-all active:scale-[0.98]">
+            Masuk
+          </button>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-slate-500 font-medium">
+          Belum punya akun? 
+          <a href="/register" class="text-emerald-600 hover:text-emerald-700 font-bold hover:underline transition-all">Daftar sekarang</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Side - Image/Hero (Hidden on Mobile) -->
+    <div class="hidden lg:flex lg:w-[55%] xl:w-[60%] relative bg-slate-900">
+      <!-- Unsplash Premium Image for Farming/Networking -->
+      <img src="https://images.unsplash.com/photo-1594771804886-a933bb2d609b?q=80&w=2000" alt="Farming Networking" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-emerald-900/40 to-transparent"></div>
+      
+      <div class="absolute bottom-0 left-0 w-full p-16" data-aos="fade-up" data-aos-delay="200">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-6 border border-white/20">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Keluarga KAFAPET
+        </div>
+        <h2 class="text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight max-w-2xl">
+          Bangun koneksi <span class="text-emerald-400">profesional</span> di dunia peternakan modern.
+        </h2>
+        <p class="text-slate-300 text-lg max-w-xl font-light leading-relaxed">
+          Platform eksklusif bagi alumni Peternakan Unsoed untuk berbagi peluang, ide bisnis, dan bernostalgia bersama.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</AuthLayout>
+
+<style>
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

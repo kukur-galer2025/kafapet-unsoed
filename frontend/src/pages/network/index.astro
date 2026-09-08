@@ -1,0 +1,1272 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Jejaring Alumni — KAFAPET">
+  <!-- Hero Header -->
+  <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 pt-32 pb-24">
+    <div class="absolute inset-0">
+      <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full filter blur-[120px] animate-pulse"></div>
+      <div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-sky-500/10 rounded-full filter blur-[100px] animate-pulse" style="animation-delay: 1s;"></div>
+      <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">Jejaring <span class="bg-gradient-to-r from-emerald-400 to-sky-400 bg-clip-text text-transparent">Profesional</span></h1>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">Terhubung, berbagi inspirasi, dan perluas karir Anda bersama keluarga besar Peternakan Unsoed.</p>
+    </div>
+  </div>
+
+  <!-- 3 Column Layout Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20 pb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- ================= LEFT COLUMN: PROFILE ================= -->
+      <div class="lg:col-span-3 lg:sticky lg:top-24 space-y-6">
+        <!-- Logged In Profile Card -->
+        <div id="left-profile-auth" class="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/60 overflow-hidden hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+          <div class="h-20 bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-400 relative"></div>
+          <div class="px-6 pb-6 text-center relative -mt-10">
+            <div id="sidebar-avatar" class="w-20 h-20 mx-auto bg-gradient-to-br from-emerald-400 to-sky-500 rounded-2xl flex items-center justify-center text-white font-bold text-3xl shadow-xl shadow-emerald-200/50 ring-4 ring-white mb-3">A</div>
+            <h3 id="sidebar-name" class="font-bold text-slate-900 text-lg">Nama Alumni</h3>
+            <div class="flex flex-col gap-1 mt-1 mb-4">
+              <p id="sidebar-headline" class="text-slate-500 text-sm flex items-center justify-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span id="sidebar-profesi-text">Alumni Peternakan</span>
+              </p>
+              <p id="sidebar-perusahaan" class="text-slate-500 text-[13px] flex items-center justify-center gap-1.5 hidden">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1v1H9V7zm5 0h1v1h-1V7zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1z"/></svg>
+                <span id="sidebar-perusahaan-text"></span>
+              </p>
+              <p id="sidebar-domisili" class="text-slate-500 text-[13px] flex items-center justify-center gap-1.5 hidden">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span id="sidebar-domisili-text"></span>
+              </p>
+            </div>
+            <div class="grid grid-cols-3 border-t border-slate-100 pt-4 mt-4 gap-2 justify-center">
+              <div id="net-followers-btn" class="text-center cursor-pointer group">
+                <p id="sidebar-followers" class="font-bold text-emerald-600 text-lg group-hover:text-emerald-700">0</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Pengikut</p>
+              </div>
+              <div id="net-following-btn" class="text-center cursor-pointer group">
+                <p id="sidebar-following" class="font-bold text-sky-600 text-lg group-hover:text-sky-700">0</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Diikuti</p>
+              </div>
+              <div class="text-center cursor-pointer group">
+                <p id="sidebar-likes" class="font-bold text-pink-600 text-lg group-hover:text-pink-700">0</p>
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Disukai</p>
+              </div>
+            </div>
+          </div>
+          <a href="/profile" class="block w-full bg-slate-50 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 text-center py-3 text-sm font-semibold border-t border-slate-100 transition-colors">Lihat Profil Penuh</a>
+        </div>
+
+        <!-- Guest Profile Card -->
+        <div id="left-profile-guest" class="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/60 p-6 text-center hidden transition-all duration-300 hover:shadow-2xl">
+          <div class="w-16 h-16 mx-auto bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500 mb-4 ring-4 ring-emerald-50/50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+          </div>
+          <h3 class="font-bold text-slate-900 mb-2">Belum Terhubung</h3>
+          <p class="text-slate-500 text-sm mb-5">Masuk untuk melihat statistik profil Anda dan mulai membangun jejaring.</p>
+          <a href="/login" class="inline-block w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-medium shadow-lg shadow-emerald-200/50 transition-all hover:-translate-y-0.5">Masuk Sekarang</a>
+        </div>
+      </div>
+
+      <!-- ================= CENTER COLUMN: FEED ================= -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        {/* Post Box — Logged In */}
+        <div id="post-box-logged-in" class="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/60 p-6 relative overflow-hidden hidden transition-all">
+          <form id="postForm" class="space-y-4">
+            <div class="flex flex-col gap-3">
+              <div class="flex gap-4">
+                <div id="user-avatar-post" class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-xl flex-shrink-0 flex items-center justify-center text-white font-bold shadow-md">A</div>
+                <div class="flex-1 space-y-3">
+                  <textarea 
+                    name="content" id="content" rows="2" 
+                    class="w-full bg-slate-50/80 border border-slate-200/80 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none resize-none transition-all duration-300 placeholder:text-slate-400"
+                    placeholder="Bagikan momen, info loker, atau pertanyaan..." required
+                  ></textarea>
+                  
+                  <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span class="text-slate-400 font-bold">#</span>
+                    </div>
+                    <input type="text" name="tags" id="tags" placeholder="Tambah tag (pisahkan dengan koma, cth: loker, event)" class="w-full pl-8 pr-3 py-2 bg-slate-50/80 border border-slate-200/80 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none transition-all placeholder:text-slate-400">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between pl-14 pt-2">
+              <div class="flex gap-3 items-center">
+                <label for="images" class="cursor-pointer inline-flex items-center gap-1.5 text-slate-500 hover:text-emerald-600 transition-all bg-white hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium border border-slate-200 hover:border-emerald-300 shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  Foto <span id="imageCount" class="text-[10px] text-slate-400">(Maks 4)</span>
+                </label>
+                <input type="file" id="images" name="images" class="hidden" accept="image/png, image/jpeg, image/jpg, image/webp" multiple />
+                <span class="text-[10px] text-slate-400 max-w-[120px] leading-tight">Max 5MB per file.<br>Format: JPG/PNG/WEBP</span>
+              </div>
+              <button type="submit" id="submitBtn" class="bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-6 py-2 rounded-xl hover:from-emerald-700 hover:to-emerald-600 transition-all shadow-md font-semibold flex items-center gap-2 hover:-translate-y-0.5 active:scale-95">Kirim</button>
+            </div>
+
+            <!-- Multi Image Preview -->
+            <div id="imagePreviewGrid" class="hidden pl-14 grid grid-cols-4 gap-2"></div>
+            <div id="errorMsg" class="text-red-500 text-sm hidden pl-14 font-medium bg-red-50 p-2 rounded-lg border border-red-100"></div>
+          </form>
+        </div>
+
+        {/* Feed List Container */}
+        <div id="feed-container" class="space-y-6">
+          <div class="animate-pulse bg-white rounded-[2rem] border border-slate-200/60 p-6 space-y-4 shadow-sm">
+            <div class="flex items-center gap-4"><div class="w-10 h-10 bg-slate-200 rounded-xl"></div><div class="space-y-2 flex-1"><div class="h-4 bg-slate-200 rounded w-1/3"></div><div class="h-3 bg-slate-100 rounded w-1/4"></div></div></div>
+            <div class="h-4 bg-slate-100 rounded w-full"></div><div class="h-32 bg-slate-100 rounded-xl"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= RIGHT COLUMN ================= -->
+      <div class="lg:col-span-3 lg:sticky lg:top-24 space-y-6">
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/60 p-5 hidden lg:block">
+          <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            Alumni Disarankan
+          </h3>
+          <div class="space-y-4" id="suggestions-container">
+            <div class="animate-pulse flex items-center gap-3">
+              <div class="w-10 h-10 bg-slate-200 rounded-xl"></div>
+              <div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded w-1/2"></div><div class="h-2 bg-slate-100 rounded w-1/3"></div></div>
+            </div>
+            <div class="animate-pulse flex items-center gap-3">
+              <div class="w-10 h-10 bg-slate-200 rounded-xl"></div>
+              <div class="flex-1 space-y-2"><div class="h-3 bg-slate-200 rounded w-1/2"></div><div class="h-2 bg-slate-100 rounded w-1/3"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/60 p-5 hidden lg:block">
+          <h3 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+            Sedang Hangat
+          </h3>
+          <div class="space-y-3" id="trending-tags-container">
+            <div class="animate-pulse space-y-2">
+              <div class="h-2 bg-slate-200 rounded w-1/3"></div>
+              <div class="h-3 bg-slate-300 rounded w-2/3"></div>
+            </div>
+            <div class="animate-pulse space-y-2">
+              <div class="h-2 bg-slate-200 rounded w-1/3"></div>
+              <div class="h-3 bg-slate-300 rounded w-1/2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Auth Modal */}
+  <div id="auth-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" style="display:none;">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="auth-modal-bg"></div>
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative z-10" style="animation: modalIn 0.2s ease-out;">
+      <button id="close-auth-modal" class="absolute top-4 right-4 text-slate-300 hover:text-slate-600 transition-colors p-1 hover:bg-slate-100 rounded-xl"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+      <div class="text-center">
+        <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg></div>
+        <h3 id="auth-modal-title" class="text-xl font-bold text-slate-900 mb-2">Akses Dibatasi</h3>
+        <p id="auth-modal-desc" class="text-slate-500 mb-6 text-sm">Masuk ke akun Anda untuk berinteraksi dengan postingan ini.</p>
+        <div class="flex flex-col gap-3">
+          <a href="/login" class="inline-flex items-center justify-center bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-8 py-3 rounded-xl font-semibold shadow-md transition-all hover:opacity-90">Masuk</a>
+          <a href="/register" class="inline-flex items-center justify-center bg-slate-50 text-slate-700 px-8 py-3 rounded-xl font-semibold transition-all border border-slate-200 hover:bg-slate-100">Daftar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Lightbox Modal */}
+  <div id="lightbox-modal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out" style="display:none;">
+    <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all z-10"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+    <img id="lightbox-img" src="" class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl" style="animation: modalIn 0.2s ease-out;" />
+  </div>
+
+  {/* Edit Post Modal */}
+  <div id="edit-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4" style="display:none;">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="edit-modal-bg"></div>
+    <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative z-10 max-h-[90vh] overflow-y-auto" style="animation: modalIn 0.2s ease-out;">
+      <button id="close-edit-modal" class="absolute top-4 right-4 text-slate-300 hover:text-slate-600 transition-colors p-1 hover:bg-slate-100 rounded-xl"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+      <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+        Edit Postingan
+      </h3>
+      <form id="editForm" class="space-y-4">
+        <input type="hidden" id="edit-post-id" />
+        <textarea id="edit-content" rows="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none resize-none transition-all"></textarea>
+        
+        <!-- Existing images to manage -->
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Gambar Saat Ini</p>
+          <div id="edit-existing-images" class="grid grid-cols-4 gap-2"></div>
+        </div>
+
+        <!-- Add new images -->
+        <div>
+          <label for="edit-new-images" class="cursor-pointer inline-flex items-center gap-1.5 text-slate-500 hover:text-emerald-600 transition-all bg-white hover:bg-emerald-50 px-3 py-2 rounded-lg text-sm font-medium border border-slate-200 hover:border-emerald-300 shadow-sm">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+            Tambah Gambar Baru
+          </label>
+          <input type="file" id="edit-new-images" name="new_images" class="hidden" accept="image/png, image/jpeg, image/jpg, image/webp" multiple />
+          <div id="edit-new-preview" class="grid grid-cols-4 gap-2 mt-2"></div>
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <button type="submit" class="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white py-2.5 rounded-xl font-semibold shadow-md hover:from-emerald-700 hover:to-emerald-600 transition-all">Simpan Perubahan</button>
+          <button type="button" id="cancel-edit" class="px-6 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-semibold hover:bg-slate-200 transition-all">Batal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {/* Delete Confirmation Modal */}
+  <div id="delete-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4" style="display:none;">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="delete-modal-bg"></div>
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl relative z-10 text-center" style="animation: modalIn 0.2s ease-out;">
+      <div class="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-red-500">
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900 mb-2">Hapus Postingan?</h3>
+      <p class="text-slate-500 text-sm mb-6">Postingan ini beserta semua komentar dan like akan dihapus secara permanen.</p>
+      <div class="flex gap-3">
+        <button id="confirm-delete" class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-semibold shadow-md transition-all">Ya, Hapus</button>
+        <button id="cancel-delete" class="flex-1 bg-slate-100 text-slate-600 py-2.5 rounded-xl font-semibold hover:bg-slate-200 transition-all">Batal</button>
+      </div>
+    </div>
+  </div>
+  {/* Connections Modal */}
+  <div id="net-connections-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4" style="display:none;">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="net-connections-modal-bg"></div>
+    <div class="bg-white rounded-[2rem] w-full max-w-md shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[85vh]" style="animation: modalIn 0.2s ease-out;">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white relative z-20">
+        <h3 class="font-bold text-slate-900 text-lg">Koneksi</h3>
+        <button id="net-close-connections" class="text-slate-400 hover:text-slate-600 hover:bg-slate-50 p-2 rounded-full transition-colors">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+      <div class="flex border-b border-slate-100 bg-white relative z-20">
+        <button id="net-tab-followers" class="flex-1 py-3 text-sm font-bold text-slate-900 border-b-2 border-slate-900 transition-colors">Pengikut</button>
+        <button id="net-tab-following" class="flex-1 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-colors">Diikuti</button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-2 bg-slate-50/50 relative z-10 custom-scrollbar" id="net-connections-list">
+        <div class="py-8 text-center text-slate-400 text-sm">Memuat...</div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  .post-card { transition: all 0.3s; }
+  .post-card:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1); }
+
+  /* Image Grid - compact thumbnails */
+  .image-grid { display: grid; gap: 3px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
+  .image-grid.g1 { grid-template-columns: 1fr; max-height: 280px; }
+  .image-grid.g2 { grid-template-columns: 1fr 1fr; max-height: 200px; }
+  .image-grid.g3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; max-height: 220px; }
+  .image-grid.g3 .gi:first-child { grid-row: 1 / 3; }
+  .image-grid.g4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; max-height: 240px; }
+  .image-grid .gi { overflow: hidden; cursor: pointer; position: relative; background: #f1f5f9; }
+  .image-grid .gi img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+  .image-grid .gi:hover img { transform: scale(1.05); }
+  .image-grid .gi::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.08), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .image-grid .gi:hover::after { opacity: 1; }
+
+  /* View icon overlay on hover */
+  .image-grid .gi .view-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.25s; z-index: 2;
+  }
+  .image-grid .gi:hover .view-overlay { opacity: 1; }
+
+  /* Three-dot dropdown - click based */
+  .post-menu-dropdown {
+    display: none; position: absolute; right: 0; top: calc(100% + 4px); z-index: 50;
+    min-width: 160px; background: white; border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
+    padding: 4px; overflow: hidden;
+    animation: modalIn 0.15s ease-out;
+  }
+  .post-menu-dropdown.active { display: block; }
+</style>
+
+<script>
+  const API_BASE = 'http://localhost:3000/api/v1';
+  let currentUser = null;
+  let deletePostId = null;
+  let editExistingImages = [];
+  
+  function getToken() {
+    const match = document.cookie.match(/(^|;)\s*token\s*=\s*([^;]+)/);
+    return match ? match[2] : null;
+  }
+  const token = getToken();
+
+  // Modal helpers
+  const authModal = document.getElementById('auth-modal');
+  function showAuthModal(title, desc) {
+    document.getElementById('auth-modal-title').textContent = title;
+    document.getElementById('auth-modal-desc').textContent = desc;
+    authModal.style.display = 'flex';
+    authModal.classList.remove('hidden');
+  }
+  document.getElementById('close-auth-modal')?.addEventListener('click', () => { authModal.style.display = 'none'; });
+  document.getElementById('auth-modal-bg')?.addEventListener('click', () => { authModal.style.display = 'none'; });
+
+  // Lightbox
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightboxModal.style.display = 'flex';
+    lightboxModal.classList.remove('hidden');
+  }
+  document.getElementById('lightbox-close')?.addEventListener('click', () => { lightboxModal.style.display = 'none'; });
+  lightboxModal?.addEventListener('click', (e) => { if(e.target === lightboxModal) lightboxModal.style.display = 'none'; });
+
+  // Edit Modal
+  const editModal = document.getElementById('edit-modal');
+  function openEditModal(post) {
+    document.getElementById('edit-post-id').value = post.id;
+    document.getElementById('edit-content').value = post.content;
+    
+    // Show existing images
+    const container = document.getElementById('edit-existing-images');
+    let images = [];
+    try { images = JSON.parse(post.images || '[]'); } catch(e) {}
+    editExistingImages = [...images];
+    renderEditExistingImages();
+    
+    // Clear new images
+    document.getElementById('edit-new-images').value = '';
+    document.getElementById('edit-new-preview').innerHTML = '';
+    
+    editModal.style.display = 'flex';
+    editModal.classList.remove('hidden');
+  }
+  function renderEditExistingImages() {
+    const container = document.getElementById('edit-existing-images');
+    if (editExistingImages.length === 0) {
+      container.innerHTML = '<p class="text-xs text-slate-400 col-span-4">Tidak ada gambar</p>';
+      return;
+    }
+    container.innerHTML = editExistingImages.map((url, i) => `
+      <div class="relative group">
+        <img src="${url}" class="w-full h-20 object-cover rounded-lg border border-slate-200" />
+        <button type="button" data-idx="${i}" class="remove-existing-img absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+    `).join('');
+    container.querySelectorAll('.remove-existing-img').forEach(btn => {
+      btn.addEventListener('click', () => {
+        editExistingImages.splice(parseInt(btn.dataset.idx), 1);
+        renderEditExistingImages();
+      });
+    });
+  }
+  document.getElementById('close-edit-modal')?.addEventListener('click', () => { editModal.style.display = 'none'; });
+  document.getElementById('cancel-edit')?.addEventListener('click', () => { editModal.style.display = 'none'; });
+  document.getElementById('edit-modal-bg')?.addEventListener('click', () => { editModal.style.display = 'none'; });
+
+  // Edit form submit
+  document.getElementById('editForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const postId = document.getElementById('edit-post-id').value;
+    const formData = new FormData();
+    formData.append('content', document.getElementById('edit-content').value);
+    formData.append('existing_images', JSON.stringify(editExistingImages));
+    
+    const newFiles = document.getElementById('edit-new-images').files;
+    for(let i = 0; i < newFiles.length; i++) {
+      formData.append('new_images', newFiles[i]);
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/posts/${postId}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+      if(res.ok) {
+        editModal.style.display = 'none';
+        loadFeed();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Gagal mengedit postingan');
+      }
+    } catch(err) { alert('Error jaringan'); }
+  });
+
+  // Edit new images preview
+  document.getElementById('edit-new-images')?.addEventListener('change', (e) => {
+    const container = document.getElementById('edit-new-preview');
+    const files = e.target.files;
+    const totalAllowed = 4 - editExistingImages.length;
+    container.innerHTML = '';
+    for(let i = 0; i < Math.min(files.length, totalAllowed); i++) {
+      const div = document.createElement('div');
+      div.className = 'relative';
+      div.innerHTML = `<img src="${URL.createObjectURL(files[i])}" class="w-full h-20 object-cover rounded-lg border border-emerald-200" />`;
+      container.appendChild(div);
+    }
+    if(files.length > totalAllowed) {
+      alert(`Hanya bisa menambahkan ${totalAllowed} gambar lagi (maks 4 total)`);
+    }
+  });
+
+  // Delete Modal
+  const deleteModal = document.getElementById('delete-modal');
+  function openDeleteModal(postId) {
+    deletePostId = postId;
+    deleteModal.style.display = 'flex';
+    deleteModal.classList.remove('hidden');
+  }
+  document.getElementById('cancel-delete')?.addEventListener('click', () => { deleteModal.style.display = 'none'; });
+  document.getElementById('delete-modal-bg')?.addEventListener('click', () => { deleteModal.style.display = 'none'; });
+  document.getElementById('confirm-delete')?.addEventListener('click', async () => {
+    if(!deletePostId) return;
+    try {
+      const res = await fetch(`${API_BASE}/posts/${deletePostId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if(res.ok) {
+        deleteModal.style.display = 'none';
+        loadFeed();
+      }
+    } catch(err) {}
+  });
+
+  // Init Sidebar & Auth
+  async function initAuthData() {
+    if (token) {
+      document.getElementById('post-box-logged-in')?.classList.remove('hidden');
+      document.getElementById('left-profile-auth')?.classList.remove('hidden');
+      try {
+        const res = await fetch(`${API_BASE}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` }});
+        if(res.ok) {
+          currentUser = await res.json();
+          const profile = currentUser.profile;
+          const name = profile?.full_name || 'Alumni';
+          document.getElementById('sidebar-name').textContent = name;
+          
+          document.getElementById('sidebar-profesi-text').textContent = profile?.pekerjaan_saat_ini || 'Alumni Peternakan';
+          
+          if (profile?.perusahaan) {
+            document.getElementById('sidebar-perusahaan-text').textContent = profile.perusahaan;
+            document.getElementById('sidebar-perusahaan').classList.remove('hidden');
+          }
+          if (profile?.domisili_kota) {
+            document.getElementById('sidebar-domisili-text').textContent = profile.domisili_kota;
+            document.getElementById('sidebar-domisili').classList.remove('hidden');
+          }
+
+          const avatarHTML = profile?.foto_profil 
+            ? `<img src="${profile.foto_profil}" alt="Avatar" class="w-full h-full object-cover" />`
+            : getInitials(name);
+            
+          const sidebarAvatar = document.getElementById('sidebar-avatar');
+          if(sidebarAvatar) {
+            if(profile?.foto_profil) sidebarAvatar.innerHTML = avatarHTML;
+            else sidebarAvatar.textContent = avatarHTML;
+            sidebarAvatar.classList.add('overflow-hidden');
+          }
+          
+          const postAvatar = document.getElementById('user-avatar-post');
+          if(postAvatar) {
+            if(profile?.foto_profil) postAvatar.innerHTML = avatarHTML;
+            else postAvatar.textContent = avatarHTML;
+            postAvatar.classList.add('overflow-hidden');
+          }
+          
+          const sidebarLikes = document.getElementById('sidebar-likes');
+          if (sidebarLikes) sidebarLikes.textContent = currentUser.total_likes || 0;
+          
+          fetchConnections(currentUser.user_id);
+        }
+      } catch(e) {}
+    } else {
+      document.getElementById('left-profile-guest')?.classList.remove('hidden');
+    }
+  }
+
+  async function fetchConnections(userId) {
+    try {
+      const res = await fetch(`${API_BASE}/users/${userId}/connections`);
+      if(res.ok) {
+        const data = await res.json();
+        const fEl = document.getElementById('sidebar-followers');
+        const fiEl = document.getElementById('sidebar-following');
+        if(fEl) fEl.textContent = data.follower_count;
+        if(fiEl) fiEl.textContent = data.following_count;
+      }
+    } catch(e){}
+  }
+
+  // Helpers
+  function getInitials(name) { return name ? name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase() : 'U'; }
+  function timeAgo(dateStr) {
+    const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
+    if (diff < 60) return 'Baru saja';
+    if (diff < 3600) return `${Math.floor(diff / 60)} menit lalu`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} jam lalu`;
+    return `${Math.floor(diff / 86400)} hari lalu`;
+  }
+  function canEdit(createdAt) {
+    return (new Date() - new Date(createdAt)) < 30 * 60 * 1000; // 30 minutes
+  }
+
+  // Build image grid HTML
+  function buildImageGrid(post) {
+    let images = [];
+    try { images = JSON.parse(post.images || '[]'); } catch(e) {}
+    // Fallback for old single-image posts
+    if(images.length === 0 && post.image_url) images = [post.image_url];
+    if(images.length === 0) return '';
+
+    const gridClass = `g${Math.min(images.length, 4)}`;
+    const items = images.slice(0, 4).map(url => `
+      <div class="gi" data-lightbox-src="${url}">
+        <img src="${url}" loading="lazy" alt="Post image" />
+        <div class="view-overlay">
+          <svg class="w-6 h-6 text-white drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" /></svg>
+        </div>
+      </div>
+    `).join('');
+
+    return `<div class="image-grid ${gridClass} mb-4">${items}</div>`;
+  }
+
+  // Render Post Card
+  function renderPostCard(post) {
+    const name = post.user?.profile?.full_name || 'Alumni';
+    const angkatan = post.user?.profile?.angkatan;
+    
+    const authorFoto = post.user?.profile?.foto_profil;
+    const avatarHTML = authorFoto 
+      ? `<img src="${authorFoto}" alt="${name}" class="w-full h-full object-cover" />`
+      : getInitials(name);
+      
+    const date = timeAgo(post.created_at);
+    const isMe = currentUser && currentUser.user_id === post.user_id;
+    
+    const perusahaan = post.user?.profile?.perusahaan;
+    const pekerjaan = post.user?.profile?.pekerjaan_saat_ini;
+    
+    let jobText = '';
+    if (pekerjaan && perusahaan) jobText = `${pekerjaan} di ${perusahaan}`;
+    else if (pekerjaan) jobText = pekerjaan;
+    else if (perusahaan) jobText = perusahaan;
+    
+    // Connect button (only for other users)
+    let connectBtn = '';
+    if (!isMe) {
+      const isConnected = currentUser?.followed_ids?.includes(post.user_id);
+      if (isConnected) {
+        connectBtn = `
+          <button class="connected-btn text-white bg-slate-800 hover:bg-red-600 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 transition-colors" data-user-id="${post.user_id}">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Connected
+          </button>
+        `;
+      } else {
+        connectBtn = `
+          <button class="connect-btn text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1 rounded-full text-xs font-bold transition-colors flex items-center gap-1" data-user-id="${post.user_id}">
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Connect
+          </button>
+        `;
+      }
+    }
+
+    // Three-dot menu (only for post owner) - click based
+    const postDataSafe = JSON.stringify({id: post.id, content: post.content, images: post.images}).replace(/'/g, '&#39;');
+    const ownerMenu = isMe ? `
+      <div class="relative">
+        <button class="post-menu-toggle w-8 h-8 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors" data-post-id="${post.id}">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
+        </button>
+        <div class="post-menu-dropdown" id="menu-${post.id}">
+          ${canEdit(post.created_at) ? `
+            <button class="edit-post-btn w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 flex items-center gap-2 transition-colors rounded-lg" data-post='${postDataSafe}'>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+              Edit
+            </button>
+          ` : `
+            <div class="px-3 py-2 text-[11px] text-slate-400 flex items-center gap-2 rounded-lg">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              Lewat batas edit
+            </div>
+          `}
+          <button class="delete-post-btn w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors rounded-lg" data-post-id="${post.id}">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+            Hapus
+          </button>
+        </div>
+      </div>
+    ` : '';
+
+    const imageHTML = buildImageGrid(post);
+
+    return `
+      <div class="post-card bg-white rounded-[2rem] border border-slate-200/60 p-6 overflow-hidden">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-sm ring-2 ring-white overflow-hidden">${avatarHTML}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <h3 class="font-bold text-slate-900 text-sm truncate">${name}</h3>
+              ${angkatan ? `<span class="text-[9px] px-1.5 py-0.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-md font-bold tracking-wide">Angkatan ${angkatan}</span>` : ''}
+            </div>
+            <div class="flex items-center gap-2 mt-0.5">
+              ${pekerjaan ? `
+                <span class="text-[11px] font-medium text-slate-500 truncate flex items-center gap-1">
+                  <svg class="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  ${pekerjaan}
+                </span>
+                <span class="text-slate-300 text-[10px]">•</span>
+              ` : ''}
+              ${perusahaan ? `
+                <span class="text-[11px] font-medium text-slate-500 truncate flex items-center gap-1">
+                  <svg class="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1v1H9V7zm5 0h1v1h-1V7zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1z"/></svg>
+                  ${perusahaan}
+                </span>
+                <span class="text-slate-300 text-[10px]">•</span>
+              ` : ''}
+              <p class="text-[11px] text-slate-400">${date}</p>
+            </div>
+          </div>
+          ${connectBtn}
+          ${ownerMenu}
+        </div>
+        
+        <p class="text-slate-700 text-sm leading-relaxed mb-4 whitespace-pre-line">${post.content}</p>
+        ${(post.tags && post.tags !== '[]') ? `
+          <div class="flex flex-wrap gap-2 mb-4">
+            ${JSON.parse(post.tags).map(tag => `<span class="inline-flex items-center px-2 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-medium hover:bg-emerald-50 hover:text-emerald-600 transition-colors cursor-pointer">${tag}</span>`).join('')}
+          </div>
+        ` : ''}
+        ${imageHTML}
+        
+        <div class="flex items-center justify-between border-t border-slate-100 pt-3 text-slate-500 text-xs font-medium">
+          <div class="flex items-center gap-4">
+            <button class="like-btn flex items-center gap-1.5 hover:text-emerald-600 transition-colors bg-slate-50 hover:bg-emerald-50 px-3 py-1.5 rounded-lg" data-post-id="${post.id}">
+               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+               <span class="like-count">${post.like_count || 0}</span>
+            </button>
+            <button class="comment-toggle-btn flex items-center gap-1.5 hover:text-sky-600 transition-colors bg-slate-50 hover:bg-sky-50 px-3 py-1.5 rounded-lg" data-post-id="${post.id}">
+               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+               <span class="comment-count">${post.comment_count || 0}</span>
+            </button>
+          </div>
+          
+          <div class="relative">
+            <button class="share-toggle-btn flex items-center gap-1.5 hover:text-indigo-600 transition-colors bg-slate-50 hover:bg-indigo-50 px-3 py-1.5 rounded-lg" data-post-id="${post.id}">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+              <span>Bagikan</span>
+            </button>
+            <div class="share-dropdown-menu hidden absolute right-0 bottom-full mb-2 w-44 bg-white rounded-xl shadow-lg shadow-slate-200/50 border border-slate-100 overflow-hidden z-20" id="share-${post.id}">
+              <button class="copy-link-btn w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2" data-url="${window.location.origin}/post/${post.slug || post.id}">
+                <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                Salin Tautan
+              </button>
+              <a href="https://wa.me/?text=${encodeURIComponent('Lihat postingan ini di Kafapet: ' + window.location.origin + '/post/' + (post.slug || post.id))}" target="_blank" class="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.885-9.885 9.885m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline Comment Section (Hidden by default) -->
+        <div id="comment-section-${post.id}" class="hidden mt-4 border-t border-slate-100 pt-4">
+          <div id="comments-list-${post.id}" class="space-y-4 mb-4 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+            <div class="text-center py-4 text-slate-400 text-xs">Memuat komentar...</div>
+          </div>
+          <form class="comment-form flex gap-3" data-post-id="${post.id}">
+            <div class="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center text-slate-500 font-bold text-xs">
+              ${currentUser ? getInitials(currentUser.profile?.full_name || 'User') : 'U'}
+            </div>
+            <div class="flex-1 relative">
+              <input type="text" name="content" required placeholder="Tulis komentar..." class="w-full bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all pr-10" />
+              <button type="submit" class="absolute right-1.5 top-1.5 p-1 text-emerald-500 hover:bg-emerald-50 rounded-full transition-colors">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    `;
+  }
+
+  // Attach event listeners
+  function attachListeners() {
+    // Three-dot menu toggle (click-based)
+    document.querySelectorAll('.post-menu-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const postId = btn.dataset.postId;
+        const menu = document.getElementById(`menu-${postId}`);
+        // Close all other menus first
+        document.querySelectorAll('.post-menu-dropdown.active').forEach(m => {
+          if(m !== menu) m.classList.remove('active');
+        });
+        menu.classList.toggle('active');
+      });
+    });
+
+    // Close menus when clicking outside
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.post-menu-dropdown.active').forEach(m => m.classList.remove('active'));
+      document.querySelectorAll('.share-dropdown-menu').forEach(m => m.classList.add('hidden'));
+    });
+
+    // Share menu toggle
+    document.querySelectorAll('.share-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const postId = btn.dataset.postId;
+        const menu = document.getElementById(`share-${postId}`);
+        // Close other share menus
+        document.querySelectorAll('.share-dropdown-menu').forEach(m => {
+          if (m !== menu) m.classList.add('hidden');
+        });
+        menu.classList.toggle('hidden');
+      });
+    });
+
+    // Copy link
+    document.querySelectorAll('.copy-link-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const url = btn.dataset.url;
+        try {
+          await navigator.clipboard.writeText(url);
+          const originalText = btn.innerHTML;
+          btn.innerHTML = `<svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Tersalin!`;
+          setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+        } catch(err) {
+          alert('Gagal menyalin tautan');
+        }
+      });
+    });
+
+    // Lightbox image click
+    document.querySelectorAll('.gi[data-lightbox-src]').forEach(gi => {
+      gi.addEventListener('click', () => {
+        openLightbox(gi.dataset.lightboxSrc);
+      });
+    });
+
+    // Connect buttons - use event delegation for dynamically loaded buttons
+    // (handled globally below)
+    
+    // Like buttons
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!token) { showAuthModal('Masuk untuk Menyukai', 'Like postingan yang menarik perhatian Anda.'); return; }
+        try {
+          const res = await fetch(`${API_BASE}/posts/${btn.dataset.postId}/like`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }});
+          if(res.ok) { const data = await res.json(); btn.querySelector('.like-count').textContent = data.like_count; if(data.liked) { btn.classList.add('text-emerald-600','bg-emerald-50'); } else { btn.classList.remove('text-emerald-600'); } }
+        } catch(e){}
+      });
+    });
+    // Edit buttons
+    document.querySelectorAll('.edit-post-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const post = JSON.parse(btn.dataset.post);
+        openEditModal(post);
+      });
+    });
+    // Delete buttons
+    document.querySelectorAll('.delete-post-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openDeleteModal(btn.dataset.postId);
+      });
+    });
+
+    // Comment Toggle
+    document.querySelectorAll('.comment-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const postId = btn.dataset.postId;
+        const section = document.getElementById(`comment-section-${postId}`);
+        section.classList.toggle('hidden');
+        
+        // Load comments if opened and empty
+        if (!section.classList.contains('hidden')) {
+          const listContainer = document.getElementById(`comments-list-${postId}`);
+          if (listContainer.children.length === 1 && listContainer.children[0].textContent === 'Memuat komentar...') {
+            try {
+              const res = await fetch(`${API_BASE}/posts/${postId}/comments`);
+              if (res.ok) {
+                const data = await res.json();
+                if (data.count === 0) {
+                  listContainer.innerHTML = '<div class="text-center py-4 text-slate-400 text-xs">Belum ada komentar. Jadilah yang pertama!</div>';
+                } else {
+                  listContainer.innerHTML = data.data.map(c => `
+                    <div class="flex gap-3">
+                      <div class="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center text-slate-500 font-bold text-xs">
+                        ${getInitials(c.user?.profile?.full_name)}
+                      </div>
+                      <div class="flex-1 bg-slate-50 rounded-2xl rounded-tl-none p-3 border border-slate-100">
+                        <div class="flex justify-between items-baseline mb-1">
+                          <span class="font-bold text-slate-800 text-xs">${c.user?.profile?.full_name || 'User'}</span>
+                          <span class="text-[10px] text-slate-400">${timeAgo(c.created_at)}</span>
+                        </div>
+                        <p class="text-slate-600 text-xs">${c.content}</p>
+                      </div>
+                    </div>
+                  `).join('');
+                }
+              }
+            } catch (e) {
+              listContainer.innerHTML = '<div class="text-center py-4 text-red-400 text-xs">Gagal memuat komentar</div>';
+            }
+          }
+        }
+      });
+    });
+
+    // Comment Form Submit
+    document.querySelectorAll('.comment-form').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!token) {
+          showAuthModal('Masuk untuk Berkomentar', 'Ikut berdiskusi dengan memberikan komentar Anda.');
+          return;
+        }
+        
+        const postId = form.dataset.postId;
+        const input = form.querySelector('input[name="content"]');
+        const content = input.value.trim();
+        if (!content) return;
+        
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        
+        try {
+          const res = await fetch(`${API_BASE}/posts/${postId}/comments`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ content })
+          });
+          
+          if (res.ok) {
+            const data = await res.json();
+            input.value = '';
+            
+            // Update count on button
+            const countSpan = document.querySelector(`.comment-toggle-btn[data-post-id="${postId}"] .comment-count`);
+            if (countSpan) countSpan.textContent = data.comment_count;
+            
+            // Prepend new comment
+            const listContainer = document.getElementById(`comments-list-${postId}`);
+            const c = data.data;
+            const newCommentHTML = `
+              <div class="flex gap-3 animate-fade-in-down">
+                <div class="w-8 h-8 rounded-full bg-emerald-100 flex-shrink-0 flex items-center justify-center text-emerald-600 font-bold text-xs">
+                  ${getInitials(c.user?.profile?.full_name)}
+                </div>
+                <div class="flex-1 bg-emerald-50/50 rounded-2xl rounded-tl-none p-3 border border-emerald-100">
+                  <div class="flex justify-between items-baseline mb-1">
+                    <span class="font-bold text-slate-800 text-xs">${c.user?.profile?.full_name || 'User'}</span>
+                    <span class="text-[10px] text-emerald-500">Baru saja</span>
+                  </div>
+                  <p class="text-slate-600 text-xs">${c.content}</p>
+                </div>
+              </div>
+            `;
+            
+            if (listContainer.innerHTML.includes('Belum ada komentar')) {
+              listContainer.innerHTML = newCommentHTML;
+            } else {
+              listContainer.insertAdjacentHTML('beforeend', newCommentHTML); // Add to bottom since order is ASC
+            }
+            
+            // Scroll to bottom of list
+            listContainer.scrollTop = listContainer.scrollHeight;
+          }
+        } catch (e) {
+          console.error(e);
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  }
+
+  // Load Feed
+  async function loadFeed() {
+    const feedContainer = document.getElementById('feed-container');
+    try {
+      const res = await fetch(`${API_BASE}/posts`);
+      const data = await res.json();
+      if(data.data && data.data.length > 0) {
+        feedContainer.innerHTML = data.data.map(post => renderPostCard(post)).join('');
+      } else {
+        feedContainer.innerHTML = '<div class="text-center py-10 bg-white rounded-3xl border border-slate-200 text-slate-500">Belum ada postingan.</div>';
+      }
+    } catch (error) {
+      feedContainer.innerHTML = '<div class="text-center py-10 text-red-500">Gagal memuat feed.</div>';
+    }
+    attachListeners();
+  }
+
+  // Post form submission (multi-image)
+  const form = document.getElementById('postForm');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(!token) return;
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.innerHTML = 'Mengirim...';
+    submitBtn.disabled = true;
+    
+    const formData = new FormData();
+    formData.append('content', document.getElementById('content').value);
+    
+    const tagsVal = document.getElementById('tags').value;
+    if(tagsVal) {
+      formData.append('tags', tagsVal);
+    }
+    
+    const files = document.getElementById('images').files;
+    for(let i = 0; i < Math.min(files.length, 4); i++) {
+      formData.append('images', files[i]);
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/posts`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }, body: formData });
+      if(res.ok) {
+        document.getElementById('content').value = '';
+        document.getElementById('tags').value = '';
+        document.getElementById('images').value = '';
+        document.getElementById('imagePreviewGrid').innerHTML = '';
+        document.getElementById('imagePreviewGrid').classList.add('hidden');
+        submitBtn.innerHTML = 'Kirim';
+        submitBtn.disabled = false;
+        loadFeed();
+      } else {
+        const data = await res.json();
+        document.getElementById('errorMsg').textContent = data.error;
+        document.getElementById('errorMsg').classList.remove('hidden');
+        submitBtn.innerHTML = 'Kirim';
+        submitBtn.disabled = false;
+      }
+    } catch(err) {
+      submitBtn.innerHTML = 'Kirim';
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Multi-image preview for create form
+  document.getElementById('images')?.addEventListener('change', (e) => {
+    const files = e.target.files;
+    const grid = document.getElementById('imagePreviewGrid');
+    grid.innerHTML = '';
+    if(files.length > 0) {
+      grid.classList.remove('hidden');
+      grid.style.display = 'grid';
+      for(let i = 0; i < Math.min(files.length, 4); i++) {
+        const div = document.createElement('div');
+        div.className = 'relative group';
+        div.innerHTML = `
+          <img src="${URL.createObjectURL(files[i])}" class="w-full h-24 object-cover rounded-xl border border-slate-200 shadow-sm" />
+        `;
+        grid.appendChild(div);
+      }
+      if(files.length > 4) {
+        document.getElementById('errorMsg').textContent = 'Maksimal 4 gambar. Hanya 4 gambar pertama yang akan diunggah.';
+        document.getElementById('errorMsg').classList.remove('hidden');
+      }
+    } else {
+      grid.classList.add('hidden');
+    }
+  });
+
+  // Fetch Dynamic Sidebars
+  async function fetchSuggestedAlumni() {
+    const container = document.getElementById('suggestions-container');
+    if (!container) return;
+    try {
+      const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+      const res = await fetch(`${API_BASE}/alumni/suggested`, { headers });
+      const data = await res.json();
+      if(data.data && data.data.length > 0) {
+        let filteredAlumni = data.data;
+        if (currentUser && currentUser.followed_ids) {
+          filteredAlumni = data.data.filter(p => !currentUser.followed_ids.includes(p.user_id));
+        }
+        
+        if (filteredAlumni.length > 0) {
+          container.innerHTML = filteredAlumni.slice(0, 3).map(profile => {
+            const avatarHTML = profile.foto_profil
+              ? `<img src="${profile.foto_profil}" alt="${profile.full_name}" class="w-full h-full object-cover" />`
+              : getInitials(profile.full_name);
+              
+            return `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-slate-200 rounded-xl flex items-center justify-center text-slate-500 font-bold overflow-hidden">${avatarHTML}</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold text-slate-900 truncate">${profile.full_name || 'Alumni'}</p>
+                <p class="text-[10px] text-slate-500 truncate">${profile.angkatan ? 'Angkatan ' + profile.angkatan : 'Alumni'} &bull; ${profile.total_likes || 0} Likes</p>
+              </div>
+              <button class="connect-btn-dummy w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors" title="Connect" data-user-id="${profile.user_id}">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+              </button>
+            </div>
+          `}).join('');
+        } else {
+          container.innerHTML = '<p class="text-xs text-slate-500 text-center">Tidak ada saran alumni baru.</p>';
+        }
+      } else {
+        container.innerHTML = '<p class="text-xs text-slate-500 text-center">Belum ada saran alumni.</p>';
+      }
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  async function fetchTrendingTags() {
+    const container = document.getElementById('trending-tags-container');
+    if (!container) return;
+    try {
+      const res = await fetch(`${API_BASE}/tags/trending`);
+      const data = await res.json();
+      if(data.data && data.data.length > 0) {
+        container.innerHTML = data.data.map((item, idx) => {
+          let category = 'Populer';
+          if(idx === 0) category = 'Paling Hangat';
+          else if(item.tag.toLowerCase().includes('loker') || item.tag.toLowerCase().includes('karir')) category = 'Loker & Karir';
+          else if(item.tag.toLowerCase().includes('event') || item.tag.toLowerCase().includes('kampus')) category = 'Event Kampus';
+
+          return `
+            <div class="group cursor-pointer">
+              <p class="text-xs text-slate-400 mb-0.5">${category}</p>
+              <p class="font-semibold text-slate-700 text-sm group-hover:text-emerald-600 transition-colors">${item.tag}</p>
+              <p class="text-[10px] text-slate-400">${item.count} post</p>
+            </div>
+          `;
+        }).join('');
+      } else {
+        container.innerHTML = '<p class="text-xs text-slate-500 text-center">Belum ada tren topik.</p>';
+      }
+    } catch(err) {
+      console.error(err);
+    }
+  }
+
+  // Init
+  initAuthData().then(() => {
+    loadFeed();
+    fetchSuggestedAlumni();
+    fetchTrendingTags();
+  });
+
+  // Global event delegation for connect/disconnect buttons
+  document.addEventListener('click', async (e) => {
+    // Handle CONNECT buttons (follow)
+    const connectBtn = e.target.closest('.connect-btn, .connect-btn-dummy');
+    if (connectBtn) {
+      if (!token) { showAuthModal('Masuk untuk Terhubung', 'Bangun jejaring profesional Anda.'); return; }
+      const targetId = connectBtn.dataset.userId;
+      if (!targetId) return;
+
+      connectBtn.disabled = true;
+      try {
+        const res = await fetch(`${API_BASE}/users/${targetId}/follow`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }});
+        if (res.ok || (await res.clone().json().catch(() => ({}))).error === "Already following this user") {
+          connectBtn.innerHTML = `<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Connected`;
+          connectBtn.className = 'connected-btn text-white bg-slate-800 hover:bg-red-600 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 transition-colors';
+          connectBtn.dataset.userId = targetId;
+          connectBtn.disabled = false;
+          if (currentUser && currentUser.followed_ids && !currentUser.followed_ids.includes(parseInt(targetId))) {
+            currentUser.followed_ids.push(parseInt(targetId));
+            const el = document.getElementById('sidebar-following');
+            if (el) el.textContent = parseInt(el.textContent) + 1;
+          }
+        } else { connectBtn.disabled = false; }
+      } catch(err) { connectBtn.disabled = false; }
+      return;
+    }
+
+    // Handle CONNECTED buttons (unfollow)
+    const connectedBtn = e.target.closest('.connected-btn');
+    if (connectedBtn) {
+      if (!token) return;
+      const targetId = connectedBtn.dataset.userId;
+      if (!targetId) return;
+
+      connectedBtn.disabled = true;
+      try {
+        const res = await fetch(`${API_BASE}/users/${targetId}/follow`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` }});
+        if (res.ok) {
+          connectedBtn.innerHTML = `<svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Connect`;
+          connectedBtn.className = 'connect-btn text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1 rounded-full text-xs font-bold transition-colors flex items-center gap-1';
+          connectedBtn.dataset.userId = targetId;
+          connectedBtn.disabled = false;
+          if (currentUser && currentUser.followed_ids) {
+            currentUser.followed_ids = currentUser.followed_ids.filter(id => id !== parseInt(targetId));
+            const el = document.getElementById('sidebar-following');
+            if (el) el.textContent = Math.max(0, parseInt(el.textContent) - 1);
+          }
+        } else { connectedBtn.disabled = false; }
+      } catch(err) { connectedBtn.disabled = false; }
+      return;
+    }
+  });
+
+  // ===================== Connections Modal Logic =====================
+  const netModal = document.getElementById('net-connections-modal');
+  const netList = document.getElementById('net-connections-list');
+  const netTabFollowers = document.getElementById('net-tab-followers');
+  const netTabFollowing = document.getElementById('net-tab-following');
+  let netConnData = { followers: [], following: [] };
+
+  function netRenderConnections(type) {
+    const list = type === 'followers' ? netConnData.followers : netConnData.following;
+    
+    // Update tabs
+    if (type === 'followers') {
+      netTabFollowers.className = 'flex-1 py-3 text-sm font-bold text-slate-900 border-b-2 border-slate-900 transition-colors';
+      netTabFollowing.className = 'flex-1 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-colors';
+    } else {
+      netTabFollowing.className = 'flex-1 py-3 text-sm font-bold text-slate-900 border-b-2 border-slate-900 transition-colors';
+      netTabFollowers.className = 'flex-1 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-colors';
+    }
+
+    if (!list || list.length === 0) {
+      netList.innerHTML = `<div class="py-8 text-center text-slate-400 text-sm">Belum ada data.</div>`;
+      return;
+    }
+
+    netList.innerHTML = list.map(conn => {
+      const isFollowerTab = type === 'followers';
+      const userObj = isFollowerTab ? conn.follower : conn.followee;
+      const profile = userObj?.profile;
+      if (!profile) return '';
+      
+      const avatarHTML = profile.foto_profil
+        ? `<img src="${profile.foto_profil}" alt="Avatar" class="w-full h-full object-cover" />`
+        : getInitials(profile.full_name || 'User');
+
+      let btnHTML = '';
+      if (isFollowerTab) {
+        const doWeFollow = currentUser?.followed_ids?.includes(userObj.id);
+        if (doWeFollow) {
+          btnHTML = `<button class="net-conn-action text-slate-600 bg-slate-100 hover:bg-red-50 hover:text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors" data-action="unfollow" data-id="${userObj.id}">Hapus</button>`;
+        } else {
+          btnHTML = `<button class="net-conn-action text-emerald-600 bg-emerald-50 hover:bg-emerald-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors" data-action="follow" data-id="${userObj.id}">Ikuti Balik</button>`;
+        }
+      } else {
+        btnHTML = `<button class="net-conn-action text-slate-600 bg-slate-100 hover:bg-red-50 hover:text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors" data-action="unfollow" data-id="${userObj.id}">Berhenti Mengikuti</button>`;
+      }
+
+      return `
+        <div class="flex items-center gap-3 p-3 hover:bg-white rounded-xl transition-colors mb-1">
+          <div class="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 font-bold overflow-hidden">
+            ${avatarHTML}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-bold text-slate-900 truncate">${profile.full_name || 'User'}</p>
+            <p class="text-[11px] text-slate-500 truncate">${profile.pekerjaan_saat_ini || 'Alumni'}</p>
+          </div>
+          ${btnHTML}
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function netOpenModal(type) {
+    if (!currentUser) return;
+    netModal.style.display = 'flex';
+    netModal.classList.remove('hidden');
+    netList.innerHTML = `<div class="py-8 text-center text-slate-400 text-sm flex justify-center"><svg class="animate-spin w-6 h-6" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></div>`;
+    
+    // Set tabs early
+    if (type === 'followers') {
+      netTabFollowers.className = 'flex-1 py-3 text-sm font-bold text-slate-900 border-b-2 border-slate-900 transition-colors';
+      netTabFollowing.className = 'flex-1 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-colors';
+    } else {
+      netTabFollowing.className = 'flex-1 py-3 text-sm font-bold text-slate-900 border-b-2 border-slate-900 transition-colors';
+      netTabFollowers.className = 'flex-1 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent hover:text-slate-600 transition-colors';
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/users/${currentUser.user_id}/connections`);
+      if (res.ok) {
+        netConnData = await res.json();
+        document.getElementById('sidebar-followers').textContent = netConnData.follower_count;
+        document.getElementById('sidebar-following').textContent = netConnData.following_count;
+        netRenderConnections(type);
+      }
+    } catch(e) {
+      netList.innerHTML = `<div class="py-8 text-center text-red-500 text-sm">Gagal memuat data.</div>`;
+    }
+  }
+
+  document.getElementById('net-followers-btn')?.addEventListener('click', () => netOpenModal('followers'));
+  document.getElementById('net-following-btn')?.addEventListener('click', () => netOpenModal('following'));
+  netTabFollowers?.addEventListener('click', () => netRenderConnections('followers'));
+  netTabFollowing?.addEventListener('click', () => netRenderConnections('following'));
+
+  [document.getElementById('net-close-connections'), document.getElementById('net-connections-modal-bg')].forEach(el => {
+    el?.addEventListener('click', () => { netModal.style.display = 'none'; });
+  });
+
+  // Handle Follow/Unfollow actions inside modal
+  netList?.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.net-conn-action');
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const targetId = btn.dataset.id;
+    if (!targetId) return;
+
+    btn.disabled = true;
+    const origText = btn.innerHTML;
+    btn.innerHTML = `<svg class="animate-spin w-4 h-4 mx-auto" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+
+    try {
+      const res = await fetch(`${API_BASE}/users/${targetId}/follow`, {
+        method: action === 'follow' ? 'POST' : 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        // Update followed_ids locally
+        if (action === 'follow' && currentUser.followed_ids) {
+          currentUser.followed_ids.push(parseInt(targetId));
+        } else if (action === 'unfollow' && currentUser.followed_ids) {
+          currentUser.followed_ids = currentUser.followed_ids.filter(id => id !== parseInt(targetId));
+        }
+        // Refetch connections and re-render
+        const freshRes = await fetch(`${API_BASE}/users/${currentUser.user_id}/connections`);
+        if (freshRes.ok) {
+          netConnData = await freshRes.json();
+          document.getElementById('sidebar-followers').textContent = netConnData.follower_count;
+          document.getElementById('sidebar-following').textContent = netConnData.following_count;
+          const activeTab = netTabFollowers.classList.contains('border-slate-900') ? 'followers' : 'following';
+          netRenderConnections(activeTab);
+        }
+        // Also update Connected buttons in feed
+        loadFeed();
+      } else {
+        btn.innerHTML = origText;
+        btn.disabled = false;
+      }
+    } catch(err) {
+      btn.innerHTML = origText;
+      btn.disabled = false;
+    }
+  });
+
+</script>

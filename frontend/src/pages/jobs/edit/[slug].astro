@@ -1,0 +1,278 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+const { slug } = Astro.params;
+---
+
+<BaseLayout title="Edit Lowongan">
+  <div class="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-28 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Back button -->
+      <a href={`/jobs/${id}`} class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 mb-8 transition-colors font-medium group">
+        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        Batal & Kembali ke Detail
+      </a>
+
+      <!-- Header -->
+      <div class="mb-10">
+        <h1 class="text-4xl font-bold text-slate-900 mb-2">Edit Lowongan</h1>
+        <p class="text-slate-500 text-lg">Perbarui informasi lowongan kerja Anda.</p>
+      </div>
+
+      <div id="loading-state" class="py-20 text-center animate-pulse">
+        <div class="w-12 h-12 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-slate-500 font-medium">Memuat data lowongan...</p>
+      </div>
+
+      <form id="edit-job-form" class="hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+          <!-- LEFT: Main Form -->
+          <div class="lg:col-span-2 space-y-6">
+
+            <!-- Basic Info -->
+            <div class="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm p-8">
+              <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+                Informasi Dasar
+              </h2>
+              <div class="space-y-5">
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-1.5">Judul Posisi <span class="text-red-500">*</span></label>
+                  <input type="text" id="job-title" required placeholder="Contoh: Senior Livestock Manager" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all" />
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-1.5">Nama Perusahaan <span class="text-red-500">*</span></label>
+                  <input type="text" id="job-company" required placeholder="Contoh: PT Japfa Comfeed Indonesia" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all" />
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Lokasi Kerja</label>
+                    <input type="text" id="job-location" placeholder="Jakarta Selatan / Remote" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Tipe Pekerjaan</label>
+                    <select id="job-type" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all">
+                      <option value="Full-time">Full-time</option>
+                      <option value="Part-time">Part-time</option>
+                      <option value="Contract">Contract</option>
+                      <option value="Freelance">Freelance</option>
+                      <option value="Internship">Internship</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-1.5">
+                    Rentang Gaji
+                    <span class="text-slate-400 font-normal ml-1">(Opsional)</span>
+                  </label>
+                  <input type="text" id="job-salary" placeholder="Contoh: Rp 5.000.000 - Rp 10.000.000" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm p-8">
+              <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 bg-sky-100 text-sky-700 rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+                Deskripsi Pekerjaan
+              </h2>
+              <div class="space-y-5">
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-1.5">Deskripsi <span class="text-red-500">*</span></label>
+                  <p class="text-xs text-slate-400 mb-2">Jelaskan peran, tanggung jawab, dan lingkungan kerja secara detail.</p>
+                  <textarea id="job-desc" required rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all resize-none"></textarea>
+                </div>
+                <div>
+                  <label class="block text-sm font-bold text-slate-700 mb-1.5">Persyaratan <span class="text-red-500">*</span></label>
+                  <p class="text-xs text-slate-400 mb-2">Kualifikasi, pengalaman minimum, dan keahlian yang dibutuhkan.</p>
+                  <textarea id="job-req" required rows="6" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all resize-none"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Apply Link -->
+            <div class="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm p-8">
+              <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 bg-violet-100 text-violet-700 rounded-lg flex items-center justify-center text-sm font-bold">3</span>
+                Cara Melamar
+              </h2>
+              <div>
+                <label class="block text-sm font-bold text-slate-700 mb-1.5">Link atau Email Lamaran <span class="text-red-500">*</span></label>
+                <input type="text" id="job-apply" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 outline-none text-sm transition-all" />
+              </div>
+            </div>
+
+            <!-- Banner Image -->
+            <div class="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm p-8">
+              <h2 class="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="w-7 h-7 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center text-sm font-bold">4</span>
+                Ganti Banner Lowongan <span class="text-slate-400 font-normal text-sm ml-1">(Opsional)</span>
+              </h2>
+              <div id="banner-upload-area" class="relative border-2 border-dashed border-slate-200 hover:border-emerald-400 rounded-2xl p-8 text-center cursor-pointer transition-all bg-slate-50 hover:bg-emerald-50/30 group">
+                <input type="file" id="job-banner" accept="image/png,image/jpeg,image/webp" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                <div id="banner-placeholder">
+                  <svg class="w-12 h-12 text-slate-300 mx-auto mb-3 group-hover:text-emerald-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  <p class="text-sm font-semibold text-slate-600 group-hover:text-emerald-700 transition-colors">Klik atau seret gambar ke sini untuk mengganti</p>
+                  <p class="text-xs text-slate-400 mt-1">PNG, JPG, WEBP — Maks 5MB. Resolusi ideal 1200x400px.</p>
+                </div>
+                <img id="banner-preview" src="" alt="Preview" class="hidden w-full h-40 object-cover rounded-xl" />
+              </div>
+            </div>
+
+            <!-- Error -->
+            <div id="form-error" class="hidden bg-red-50 text-red-600 px-5 py-4 rounded-xl text-sm font-medium border border-red-100"></div>
+
+          </div>
+
+          <!-- RIGHT: Preview & Actions -->
+          <div class="space-y-6">
+            <!-- Actions -->
+            <div class="bg-white rounded-[2rem] border border-slate-200/60 shadow-sm p-6 sticky top-28">
+              <h3 class="font-bold text-slate-900 mb-2">Simpan Perubahan?</h3>
+              <p class="text-sm text-slate-500 mb-6">Pastikan informasi lowongan tetap relevan dan akurat.</p>
+              <button type="submit" id="btn-submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition-colors shadow-lg shadow-emerald-600/25 flex items-center justify-center gap-2 text-sm mb-3">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+                Simpan Perubahan
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ slug }}>
+  const API_BASE = 'http://localhost:3000/api/v1';
+  const jobSlug = slug; // this param is the slug now
+
+  function getToken() {
+    const match = document.cookie.match(/(^|;)\s*token\s*=\s*([^;]+)/);
+    return match ? match[2] : null;
+  }
+  const token = getToken();
+
+  if (!token) {
+    window.location.href = '/login';
+  }
+
+  const form = document.getElementById('edit-job-form');
+  const errBox = document.getElementById('form-error');
+  const submitBtn = document.getElementById('btn-submit');
+  const loading = document.getElementById('loading-state');
+
+  // Load existing data
+  async function loadJobData() {
+    try {
+      const res = await fetch(`${API_BASE}/jobs/${jobSlug}`);
+      if (!res.ok) throw new Error('Lowongan tidak ditemukan');
+      
+      const { data: job } = await res.json();
+      
+      // Verify ownership
+      const meRes = await fetch(`${API_BASE}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` }});
+      if (meRes.ok) {
+        const me = await meRes.json();
+        if (me.user_id !== job.user_id) {
+          alert('Anda tidak berhak mengedit lowongan ini.');
+          window.location.href = `/jobs/${jobSlug}`;
+          return;
+        }
+      }
+
+      // Populate form
+      document.getElementById('job-title').value = job.title;
+      document.getElementById('job-company').value = job.company;
+      document.getElementById('job-location').value = job.location || '';
+      document.getElementById('job-type').value = job.job_type || 'Full-time';
+      document.getElementById('job-salary').value = job.salary_range || '';
+      document.getElementById('job-apply').value = job.apply_link || '';
+      document.getElementById('job-desc').value = job.description || '';
+      document.getElementById('job-req').value = job.requirements || '';
+
+      if (job.banner_image) {
+        document.getElementById('banner-preview').src = job.banner_image;
+        document.getElementById('banner-preview').classList.remove('hidden');
+        document.getElementById('banner-placeholder').classList.add('hidden');
+      }
+
+      loading.classList.add('hidden');
+      form.classList.remove('hidden');
+    } catch(err) {
+      alert(err.message || 'Gagal memuat lowongan');
+      window.location.href = '/jobs';
+    }
+  }
+
+  loadJobData();
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errBox.classList.add('hidden');
+    submitBtn.innerHTML = `<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Menyimpan...`;
+    submitBtn.disabled = true;
+
+    const payload = {
+      title: document.getElementById('job-title').value.trim(),
+      company: document.getElementById('job-company').value.trim(),
+      location: document.getElementById('job-location').value.trim(),
+      job_type: document.getElementById('job-type').value,
+      salary_range: document.getElementById('job-salary').value.trim(),
+      apply_link: document.getElementById('job-apply').value.trim(),
+      description: document.getElementById('job-desc').value.trim(),
+      requirements: document.getElementById('job-req').value.trim(),
+    };
+
+    try {
+      const res = await fetch(`${API_BASE}/jobs/${jobSlug}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const { data } = await res.json();
+        const newSlug = data.slug;
+        // Upload banner if new file provided
+        const bannerFile = document.getElementById('job-banner').files[0];
+        if (bannerFile) {
+          submitBtn.innerHTML = `<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Mengupload banner...`;
+          const formData = new FormData();
+          formData.append('banner', bannerFile);
+          await fetch(`${API_BASE}/jobs/${newSlug}/banner`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: formData
+          });
+        }
+        window.location.href = `/jobs/${newSlug}`;
+      } else {
+        const d = await res.json();
+        errBox.textContent = d.error || 'Gagal menyimpan. Coba lagi.';
+        errBox.classList.remove('hidden');
+        submitBtn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg> Simpan Perubahan`;
+        submitBtn.disabled = false;
+      }
+    } catch(err) {
+      errBox.textContent = 'Terjadi kesalahan jaringan.';
+      errBox.classList.remove('hidden');
+      submitBtn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg> Simpan Perubahan`;
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Banner preview
+  document.getElementById('job-banner').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const preview = document.getElementById('banner-preview');
+    const placeholder = document.getElementById('banner-placeholder');
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove('hidden');
+    placeholder.classList.add('hidden');
+  });
+</script>

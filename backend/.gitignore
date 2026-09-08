@@ -1,0 +1,4 @@
+.env
+*.exe
+uploads/
+kafapet-backend*

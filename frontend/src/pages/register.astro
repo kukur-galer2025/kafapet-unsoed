@@ -1,0 +1,141 @@
+---
+import AuthLayout from '../layouts/AuthLayout.astro';
+import { registerUser } from '../utils/api';
+
+let error = '';
+let success = false;
+
+if (Astro.request.method === 'POST') {
+  try {
+    const data = await Astro.request.formData();
+    const fullName = data.get('full_name')?.toString() || '';
+    const email = data.get('email')?.toString() || '';
+    const password = data.get('password')?.toString() || '';
+    
+    await registerUser(fullName, email, password);
+    success = true;
+  } catch (err: any) {
+    error = err.message;
+  }
+}
+---
+
+<AuthLayout title="Daftar Akun">
+  <div class="min-h-screen w-full flex overflow-hidden bg-white">
+    
+    <!-- Left Side - Image/Hero (Hidden on Mobile) -->
+    <div class="hidden lg:flex lg:w-[55%] xl:w-[60%] relative bg-slate-900 order-2 lg:order-1">
+      <!-- Unsplash Premium Image for Campus/Graduation -->
+      <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2000" alt="Alumni Graduation" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" />
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-sky-900/40 to-transparent"></div>
+      
+      <div class="absolute bottom-0 left-0 w-full p-16" data-aos="fade-up" data-aos-delay="200">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider mb-6 border border-white/20">
+          <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+          Bergabung Sekarang
+        </div>
+        <h2 class="text-4xl xl:text-5xl font-bold text-white mb-6 leading-tight max-w-2xl">
+          Jadilah bagian dari <span class="text-sky-400">ekosistem</span> unggul peternakan.
+        </h2>
+        <p class="text-slate-300 text-lg max-w-xl font-light leading-relaxed">
+          Temukan kolega lama, bagikan pengalaman, dan dapatkan akses eksklusif ke berbagai peluang karir khusus alumni.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Side - Form (Takes 40-50% width on Desktop) -->
+    <div class="w-full lg:w-[45%] xl:w-[40%] flex flex-col justify-center px-8 sm:px-12 md:px-16 relative z-10 order-1 lg:order-2 py-12 lg:py-0">
+      
+      <!-- Back to Home -->
+      <a href="/" class="absolute top-8 right-8 flex items-center gap-2 text-slate-500 hover:text-sky-600 transition-colors font-medium group text-sm">
+        Kembali
+        <div class="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-sky-50 flex items-center justify-center transition-colors">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+        </div>
+      </a>
+
+      <div class="max-w-[360px] w-full mx-auto mt-8 lg:mt-0" data-aos="fade-up">
+        <!-- Logo/Icon -->
+        <div class="w-14 h-14 bg-gradient-to-br from-sky-400 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-200/50 mb-8">
+          <svg class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>
+        </div>
+
+        <h2 class="text-3xl font-bold text-slate-900 tracking-tight mb-2">Buat Akun</h2>
+        <p class="text-slate-500 font-light mb-8">Lengkapi data diri Anda untuk bergabung ke KAFAPET.</p>
+
+        {error && (
+          <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-6 flex items-start gap-3 animate-[fadeSlideIn_0.3s_ease-out]">
+            <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <p class="text-sm text-red-600 font-medium">{error}</p>
+          </div>
+        )}
+
+        {success ? (
+          <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-8 text-center animate-[fadeSlideIn_0.3s_ease-out]">
+            <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Pendaftaran Berhasil!</h3>
+            <p class="text-slate-500 text-sm mb-6">Akun Anda telah berhasil dibuat. Silakan masuk untuk melengkapi profil.</p>
+            <a href="/login" class="inline-block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition-colors shadow-md shadow-emerald-200/50">
+              Menuju Halaman Masuk
+            </a>
+          </div>
+        ) : (
+          <>
+            <!-- Google Login Button -->
+            <a href="http://localhost:3000/api/v1/auth/google" class="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm hover:bg-slate-50 hover:shadow-md transition-all font-semibold text-slate-700 active:scale-[0.98] text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5">
+                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+              </svg>
+              Daftar dengan Google
+            </a>
+
+            <div class="my-6 flex items-center justify-between">
+              <div class="flex-grow border-t border-slate-200"></div>
+              <span class="flex-shrink-0 px-4 text-[11px] text-slate-400 font-bold uppercase tracking-widest bg-white whitespace-nowrap">Atau manual</span>
+              <div class="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <form method="POST" class="space-y-4">
+              <div class="space-y-1">
+                <label for="full_name" class="text-sm font-semibold text-slate-700">Nama Lengkap</label>
+                <input type="text" id="full_name" name="full_name" required placeholder="Budi Santoso" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 transition-all placeholder:text-slate-400">
+              </div>
+              
+              <div class="space-y-1">
+                <label for="email" class="text-sm font-semibold text-slate-700">Email</label>
+                <input type="email" id="email" name="email" required placeholder="budi@example.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 transition-all placeholder:text-slate-400">
+              </div>
+              
+              <div class="space-y-1">
+                <label for="password" class="text-sm font-semibold text-slate-700">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Minimal 8 karakter" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 transition-all placeholder:text-slate-400">
+              </div>
+              
+              <button type="submit" class="w-full mt-4 bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-600 hover:to-emerald-600 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-sky-200/50 transition-all active:scale-[0.98]">
+                Daftar Sekarang
+              </button>
+            </form>
+          </>
+        )}
+
+        <p class="mt-8 text-center text-sm text-slate-500 font-medium">
+          Sudah terdaftar? 
+          <a href="/login" class="text-sky-600 hover:text-sky-700 font-bold hover:underline transition-all">Masuk di sini</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</AuthLayout>
+
+<style>
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

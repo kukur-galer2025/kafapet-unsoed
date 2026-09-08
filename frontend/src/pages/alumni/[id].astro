@@ -1,0 +1,395 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const { id } = Astro.params;
+---
+
+<BaseLayout title="Profil Alumni">
+  <div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <!-- Banner -->
+    <div class="h-48 bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-900 relative overflow-hidden">
+      <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/20 rounded-full filter blur-[80px]"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10 pb-16">
+      
+      <!-- Top Profile Header -->
+      <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/60 p-6 sm:p-8 mb-6">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+          <div id="alumni-avatar" class="w-28 h-28 flex-shrink-0 mx-auto sm:mx-0 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-2xl flex items-center justify-center text-white font-bold text-4xl shadow-xl shadow-emerald-200/50 ring-4 ring-white overflow-hidden">
+            A
+          </div>
+          <div class="flex-1 w-full">
+            <h2 id="alumni-name" class="text-2xl font-bold text-slate-900">Memuat...</h2>
+            <p id="alumni-headline" class="text-slate-500 text-sm mt-1">Alumni</p>
+            
+            <!-- Connect Button -->
+            <div id="connect-area" class="mt-4 hidden w-full max-w-[200px] mx-auto sm:mx-0">
+              <button id="connect-toggle-btn" class="connect-btn w-full text-emerald-600 bg-emerald-50 hover:bg-emerald-100 py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2" data-user-id="">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Connect
+              </button>
+            </div>
+            
+            <!-- Stats -->
+            <div class="flex items-center justify-center sm:justify-start gap-8 mt-6 pt-6 border-t border-slate-100">
+              <div class="text-center">
+                <p id="stat-followers" class="text-xl font-bold text-emerald-600">0</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Pengikut</p>
+              </div>
+              <div class="text-center">
+                <p id="stat-following" class="text-xl font-bold text-sky-600">0</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Diikuti</p>
+              </div>
+              <div class="text-center">
+                <p id="stat-likes" class="text-xl font-bold text-pink-600">0</p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Disukai</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="bg-white rounded-[1.5rem] shadow-sm border border-slate-200/60 p-1.5 mb-6 flex overflow-x-auto">
+        <button onclick="switchTab('posts')" id="tab-posts" class="flex-1 py-3 px-6 text-sm font-bold text-amber-500 border-b-2 border-amber-500 transition-colors whitespace-nowrap">Posts</button>
+        <button onclick="switchTab('about')" id="tab-about" class="flex-1 py-3 px-6 text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors whitespace-nowrap">About</button>
+        <button onclick="switchTab('articles')" id="tab-articles" class="flex-1 py-3 px-6 text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors whitespace-nowrap">Articles</button>
+        <button onclick="switchTab('photos')" id="tab-photos" class="flex-1 py-3 px-6 text-sm font-bold text-slate-500 border-b-2 border-transparent hover:text-slate-700 transition-colors whitespace-nowrap">Photos</button>
+      </div>
+
+      <!-- Content Area -->
+      <div id="content-posts" class="block">
+        <div id="posts-container" class="space-y-6">
+          <div class="text-center py-12 bg-white rounded-[2rem] border border-slate-200/60 shadow-sm">
+            <svg class="w-12 h-12 text-slate-300 mx-auto mb-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+            <p class="text-slate-500 font-medium">Memuat aktivitas...</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="content-about" class="hidden">
+        <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200/60 p-8">
+          <h3 class="font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Informasi Pribadi
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div>
+              <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Angkatan</p>
+              <p id="info-angkatan" class="text-slate-800 font-medium">-</p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Program Studi</p>
+              <p id="info-prodi" class="text-slate-800 font-medium">-</p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Perusahaan</p>
+              <p id="info-perusahaan" class="text-slate-800 font-medium">-</p>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Domisili Kota</p>
+              <p id="info-domisili" class="text-slate-800 font-medium">-</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="content-articles" class="hidden">
+        <div class="text-center py-16 bg-white rounded-[2rem] border border-slate-200/60 shadow-sm">
+          <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300">
+            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L18.5 8" /></svg>
+          </div>
+          <h3 class="font-bold text-slate-900 mb-1">Belum ada artikel</h3>
+          <p class="text-slate-500 text-sm">Fitur artikel akan segera hadir.</p>
+        </div>
+      </div>
+
+      <div id="content-photos" class="hidden">
+        <div id="photos-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div class="col-span-full text-center py-12 text-slate-500">Memuat foto...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox-modal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out" style="display:none;">
+    <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-all z-10"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+    <img id="lightbox-img" src="" class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl" style="animation: modalIn 0.2s ease-out;" />
+  </div>
+</BaseLayout>
+
+<script define:vars={{ id }}>
+  const API_BASE = 'http://localhost:3000/api/v1';
+  const alumniUserId = id;
+  let currentUser = null;
+
+  function getToken() {
+    const match = document.cookie.match(/(^|;)\s*token\s*=\s*([^;]+)/);
+    return match ? match[2] : null;
+  }
+  const token = getToken();
+
+  function getInitials(name) { return name ? name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase() : 'U'; }
+  function timeAgo(dateStr) {
+    const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
+    if (diff < 60) return 'Baru saja';
+    if (diff < 3600) return `${Math.floor(diff / 60)} menit lalu`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} jam lalu`;
+    return `${Math.floor(diff / 86400)} hari lalu`;
+  }
+
+  function buildImageGrid(post) {
+    let images = [];
+    try { images = JSON.parse(post.images || '[]'); } catch(e) {}
+    if(images.length === 0) return '';
+    const gridClass = `g${Math.min(images.length, 4)}`;
+    const items = images.slice(0, 4).map(url => `
+      <div class="gi" data-lightbox-src="${url}">
+        <img src="${url}" loading="lazy" alt="Post image" />
+      </div>
+    `).join('');
+    return `<div class="image-grid ${gridClass} mb-4">${items}</div>`;
+  }
+
+  function renderPostCard(post) {
+    const profile = post.user?.profile;
+    const name = profile?.full_name || 'Alumni';
+    const avatarHTML = profile?.foto_profil
+      ? `<img src="${profile.foto_profil}" alt="${name}" class="w-full h-full object-cover" />`
+      : getInitials(name);
+    const date = timeAgo(post.created_at);
+    const imageHTML = buildImageGrid(post);
+    const pekerjaan = profile?.pekerjaan_saat_ini;
+    const perusahaan = profile?.perusahaan;
+
+    return `
+      <div class="bg-white rounded-[2rem] border border-slate-200/60 p-6 overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-400 to-sky-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-sm ring-2 ring-white overflow-hidden">${avatarHTML}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <h3 class="font-bold text-slate-900 text-sm truncate">${name}</h3>
+            </div>
+            <div class="flex items-center gap-2 mt-0.5">
+              ${pekerjaan ? `
+                <span class="text-[11px] font-medium text-slate-500 truncate flex items-center gap-1">
+                  <svg class="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                  ${pekerjaan}
+                </span>
+                <span class="text-slate-300 text-[10px]">•</span>
+              ` : ''}
+              ${perusahaan ? `
+                <span class="text-[11px] font-medium text-slate-500 truncate flex items-center gap-1">
+                  <svg class="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1v1H9V7zm5 0h1v1h-1V7zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1zm-5 4h1v1H9v-1zm5 0h1v1h-1v-1z"/></svg>
+                  ${perusahaan}
+                </span>
+                <span class="text-slate-300 text-[10px]">•</span>
+              ` : ''}
+              <p class="text-[11px] text-slate-400">${date}</p>
+            </div>
+          </div>
+        </div>
+        <p class="text-slate-700 text-sm leading-relaxed mb-4 whitespace-pre-line">${post.content}</p>
+        ${imageHTML}
+        <div class="flex items-center gap-6 border-t border-slate-100 pt-3 text-slate-500 text-xs font-medium">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+            <span>${post.like_count || 0} Suka</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-sky-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg>
+            <span>${post.comment_count || 0} Komentar</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  async function loadAlumniProfile() {
+    try {
+      const res = await fetch(`${API_BASE}/alumni/${alumniUserId}`);
+      if (!res.ok) {
+        document.getElementById('alumni-name').textContent = 'Alumni Tidak Ditemukan';
+        return;
+      }
+      const data = await res.json();
+      const profile = data.profile;
+
+      // Set profile info
+      document.getElementById('alumni-name').textContent = profile.full_name || 'Alumni';
+      document.getElementById('alumni-headline').textContent = profile.pekerjaan_saat_ini || 'Alumni Peternakan';
+      
+      const avatarEl = document.getElementById('alumni-avatar');
+      if (profile.foto_profil) {
+        avatarEl.innerHTML = `<img src="${profile.foto_profil}" alt="Avatar" class="w-full h-full object-cover" />`;
+      } else {
+        avatarEl.textContent = getInitials(profile.full_name);
+      }
+
+      document.getElementById('stat-followers').textContent = data.follower_count || 0;
+      document.getElementById('stat-following').textContent = data.following_count || 0;
+      document.getElementById('stat-likes').textContent = data.total_likes || 0;
+
+      document.getElementById('info-angkatan').textContent = profile.angkatan || 'Belum diisi';
+      document.getElementById('info-prodi').textContent = profile.prodi || 'Belum diisi';
+      document.getElementById('info-perusahaan').textContent = profile.perusahaan || 'Belum diisi';
+      document.getElementById('info-domisili').textContent = profile.domisili_kota || 'Belum diisi';
+
+      document.title = `${profile.full_name} - KAFAPET`;
+
+      // Connect button logic
+      if (token) {
+        const meRes = await fetch(`${API_BASE}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` }});
+        if (meRes.ok) {
+          currentUser = await meRes.json();
+          if (currentUser.user_id != alumniUserId) {
+            const connectArea = document.getElementById('connect-area');
+            connectArea.classList.remove('hidden');
+            const btn = document.getElementById('connect-toggle-btn');
+            btn.dataset.userId = alumniUserId;
+            
+            const isFollowing = currentUser.followed_ids?.includes(parseInt(alumniUserId));
+            if (isFollowing) {
+              btn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Connected`;
+              btn.className = 'connected-btn w-full text-white bg-slate-800 hover:bg-red-600 py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2';
+            }
+          }
+        }
+      }
+
+      // Render posts
+      const container = document.getElementById('posts-container');
+      const photosContainer = document.getElementById('photos-container');
+      
+      let allPhotos = [];
+
+      if (data.posts && data.posts.length > 0) {
+        container.innerHTML = data.posts.map(post => {
+          try {
+            const imgs = JSON.parse(post.images || '[]');
+            allPhotos = allPhotos.concat(imgs);
+          } catch(e) {}
+          return renderPostCard(post);
+        }).join('');
+      } else {
+        container.innerHTML = `
+          <div class="text-center py-16 bg-white rounded-[2rem] border border-slate-200/60 shadow-sm">
+            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300">
+              <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5L18.5 8" /></svg>
+            </div>
+            <h3 class="font-bold text-slate-900 mb-1">Belum ada aktivitas</h3>
+            <p class="text-slate-500 text-sm">Alumni ini belum membuat postingan.</p>
+          </div>
+        `;
+      }
+
+      // Populate Photos Tab
+      if (allPhotos.length > 0) {
+        photosContainer.innerHTML = allPhotos.map(url => `
+          <div class="aspect-square rounded-xl overflow-hidden border border-slate-200 cursor-pointer gi" data-lightbox-src="${url}">
+            <img src="${url}" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform" />
+          </div>
+        `).join('');
+      } else {
+        photosContainer.innerHTML = `
+          <div class="col-span-full text-center py-16 bg-white rounded-[2rem] border border-slate-200/60 shadow-sm">
+            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300">
+              <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            </div>
+            <h3 class="font-bold text-slate-900 mb-1">Belum ada foto</h3>
+            <p class="text-slate-500 text-sm">Alumni ini belum membagikan foto.</p>
+          </div>
+        `;
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  window.switchTab = function(tabName) {
+    const tabs = ['posts', 'about', 'articles', 'photos'];
+    tabs.forEach(t => {
+      const btn = document.getElementById(`tab-${t}`);
+      const content = document.getElementById(`content-${t}`);
+      if (t === tabName) {
+        btn.classList.add('text-amber-500', 'border-amber-500');
+        btn.classList.remove('text-slate-500', 'border-transparent');
+        content.classList.remove('hidden');
+        content.classList.add('block');
+      } else {
+        btn.classList.remove('text-amber-500', 'border-amber-500');
+        btn.classList.add('text-slate-500', 'border-transparent');
+        content.classList.add('hidden');
+        content.classList.remove('block');
+      }
+    });
+  }
+
+  // Connect/disconnect delegation
+  document.addEventListener('click', async (e) => {
+    const connectBtn = e.target.closest('.connect-btn');
+    if (connectBtn) {
+      if (!token) { window.location.href = '/login'; return; }
+      const targetId = connectBtn.dataset.userId;
+      connectBtn.disabled = true;
+      try {
+        const res = await fetch(`${API_BASE}/users/${targetId}/follow`, { method: 'POST', headers: { 'Authorization': `Bearer ${token}` }});
+        if (res.ok) {
+          connectBtn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Connected`;
+          connectBtn.className = 'connected-btn w-full text-white bg-slate-800 hover:bg-red-600 py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2';
+          connectBtn.disabled = false;
+        } else { connectBtn.disabled = false; }
+      } catch(err) { connectBtn.disabled = false; }
+      return;
+    }
+
+    const connectedBtn = e.target.closest('.connected-btn');
+    if (connectedBtn) {
+      if (!token) return;
+      const targetId = connectedBtn.dataset.userId;
+      connectedBtn.disabled = true;
+      try {
+        const res = await fetch(`${API_BASE}/users/${targetId}/follow`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` }});
+        if (res.ok) {
+          connectedBtn.innerHTML = `<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg> Connect`;
+          connectedBtn.className = 'connect-btn w-full text-emerald-600 bg-emerald-50 hover:bg-emerald-100 py-2.5 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2';
+          connectedBtn.disabled = false;
+        } else { connectedBtn.disabled = false; }
+      } catch(err) { connectedBtn.disabled = false; }
+      return;
+    }
+  });
+
+  // Lightbox
+  const lightboxModal = document.getElementById('lightbox-modal');
+  document.addEventListener('click', (e) => {
+    const gi = e.target.closest('.gi');
+    if (gi && gi.dataset.lightboxSrc) {
+      document.getElementById('lightbox-img').src = gi.dataset.lightboxSrc;
+      lightboxModal.style.display = 'flex';
+      lightboxModal.classList.remove('hidden');
+    }
+  });
+  document.getElementById('lightbox-close')?.addEventListener('click', () => { lightboxModal.style.display = 'none'; });
+  lightboxModal?.addEventListener('click', (e) => { if (e.target === lightboxModal) lightboxModal.style.display = 'none'; });
+
+  loadAlumniProfile();
+</script>
+
+<style is:global>
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  .image-grid { display: grid; gap: 3px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
+  .image-grid.g1 { grid-template-columns: 1fr; max-height: 280px; }
+  .image-grid.g2 { grid-template-columns: 1fr 1fr; max-height: 200px; }
+  .image-grid.g3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; max-height: 220px; }
+  .image-grid.g3 .gi:first-child { grid-row: 1 / 3; }
+  .image-grid.g4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; max-height: 240px; }
+  .image-grid .gi { overflow: hidden; cursor: pointer; position: relative; background: #f1f5f9; }
+  .image-grid .gi img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+  .image-grid .gi:hover img { transform: scale(1.05); }
+</style>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Otentikasi Berhasil">
+  <div class="min-h-[80vh] flex flex-col items-center justify-center py-12 px-4 text-center">
+    <div class="w-16 h-16 mb-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+    <h1 class="text-3xl font-bold text-slate-900 mb-4">Memproses Masuk...</h1>
+    <p class="text-slate-600">Mohon tunggu sebentar, Anda akan segera dialihkan.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Get token from URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+
+  if (token) {
+    // Save to document cookie (valid for 3 days)
+    document.cookie = `token=${token}; path=/; max-age=259200; SameSite=Lax`;
+    
+    // Redirect to home
+    window.location.href = '/';
+  } else {
+    // If no token, redirect to login with error
+    window.location.href = '/login?error=Otentikasi%20Gagal';
+  }
+</script>
