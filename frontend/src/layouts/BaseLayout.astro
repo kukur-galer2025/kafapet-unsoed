@@ -95,7 +95,7 @@ const { title } = Astro.props;
         if (token && window.location.pathname !== '/profile/edit') {
           const dismissed = sessionStorage.getItem('profileModalDismissed');
           if (!dismissed) {
-            fetch('http://localhost:3000/api/v1/auth/me', {
+            fetch('/api/v1/auth/me', {
               headers: { 'Authorization': `Bearer ${token}` }
             }).then(res => res.json()).then(data => {
               const p = data.profile;

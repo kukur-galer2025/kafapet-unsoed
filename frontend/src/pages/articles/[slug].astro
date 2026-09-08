@@ -163,7 +163,7 @@ const { slug } = Astro.params;
 </BaseLayout>
 
 <script define:vars={{ slug }}>
-  const API_BASE = 'http://localhost:3000/api/v1';
+  const API_BASE = '/api/v1';
   const articleSlug = slug;
 
   function getToken() {
@@ -201,7 +201,7 @@ const { slug } = Astro.params;
 
       // Cover
       if (article.cover_image) {
-        const coverUrl = `http://localhost:3000${article.cover_image}`;
+        const coverUrl = `${article.cover_image}`;
         document.getElementById('cover-img').src = coverUrl;
         document.getElementById('cover-wrap').classList.remove('hidden');
         
