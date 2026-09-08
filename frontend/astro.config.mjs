@@ -9,6 +9,9 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone',
   }),
+  security: {
+    checkOrigin: false,
+  },
   image: {
     domains: ['localhost', '127.0.0.1'],
   },
@@ -17,3 +20,4 @@ export default defineConfig({
     host: true,
   }
 });
+
